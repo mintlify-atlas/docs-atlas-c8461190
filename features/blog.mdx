@@ -123,6 +123,77 @@ The blog page uses two JavaScript libraries:
   Showdown.js is loaded from CDN to convert markdown files into HTML for display in the browser.
 </Note>
 
+### list-posts.js Functionality
+
+The blog post loader script (`scripts/list-posts.js`) provides dynamic loading and rendering:
+
+<Accordion title="fetchPostList() Function">
+Fetches and displays the list of blog posts:
+
+```javascript
+async function fetchPostList() {
+    const response = await fetch('/blog/posts.json');
+    const posts = await response.json();
+    
+    posts.forEach((post, index) => {
+        const iconClass = icons[index % icons.length];
+        const card = document.createElement('div');
+        // Create post card with title, date, icon
+        card.addEventListener('click', () => {
+            loadPostContent(`/${post.path}`, post.title);
+        });
+        postGrid.appendChild(card);
+    });
+}
+```
+
+**Key Features**:
+- Fetches `posts.json` index file
+- Creates dynamic card elements for each post
+- Cycles through 10 Font Awesome icons for visual variety
+- Adds click handlers to load full post content
+- Error handling with user-friendly messages
+</Accordion>
+
+<Accordion title="loadPostContent() Function">
+Loads and renders individual blog post markdown:
+
+```javascript
+async function loadPostContent(url, title) {
+    const response = await fetch(url);
+    const markdown = await response.text();
+    const htmlContent = converter.makeHtml(markdown);
+    
+    contentDiv.innerHTML = `
+        <h2>${title}</h2>
+        <div class="prose prose-invert">${htmlContent}</div>
+        <button id="back-to-posts">Back to posts</button>
+    `;
+}
+```
+
+**Key Features**:
+- Fetches raw markdown file
+- Converts markdown to HTML using Showdown.js
+- Displays in styled content area with prose classes
+- Provides "Back to posts" navigation
+- Smooth scrolling to content
+</Accordion>
+
+<Accordion title="Icon Rotation System">
+The script includes 10 Font Awesome icons that rotate for each post:
+
+```javascript
+const icons = [
+    'fa-code', 'fa-brain', 'fa-server', 'fa-mobile-alt',
+    'fa-shield-alt', 'fa-project-diagram', 'fa-laptop-code',
+    'fa-database', 'fa-cloud', 'fa-network-wired'
+];
+```
+
+Icons are assigned using modulo: `icons[index % icons.length]`
+</Accordion>
+
 ## Blog Post Structure
 
 Blog posts are stored as markdown files in the `blog/posts/` directory:
