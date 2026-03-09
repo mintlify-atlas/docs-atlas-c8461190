@@ -1,0 +1,307 @@
+---
+title: Blog Listing Page
+description: Dynamic blog post listing with markdown rendering support
+---
+
+## Overview
+
+The Blog page displays a grid of blog posts that are dynamically loaded from markdown files. It features a clean listing interface with JavaScript-powered markdown rendering using Showdown.js.
+
+<Info>
+  Blog posts are stored as markdown files in `/blog/posts/` and dynamically rendered on the page using JavaScript.
+</Info>
+
+## Page Structure
+
+### Header Section
+
+The blog page includes an introductory header with badge, title, and description:
+
+```html
+<section class="py-20 bg-gray-800 px-6">
+    <div class="container mx-auto">
+        <div class="text-center mb-16">
+            <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-400 bg-blue-900 bg-opacity-50 rounded-full mb-4">
+                BLOG
+            </span>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                My Articles and Thoughts
+            </h2>
+            <p class="text-xl text-blue-300 max-w-3xl mx-auto">
+                Sharing knowledge, experiences and reflections on technology and development
+            </p>
+        </div>
+    </div>
+</section>
+```
+
+<CardGroup cols={3}>
+  <Card title="Badge" icon="tag">
+    Uppercase "BLOG" label with blue accent styling
+  </Card>
+  <Card title="Heading" icon="heading">
+    Large responsive heading (3xl on mobile, 4xl on desktop)
+  </Card>
+  <Card title="Subtitle" icon="message">
+    Descriptive text explaining the blog's purpose
+  </Card>
+</CardGroup>
+
+## Dynamic Post Grid
+
+Blog posts are displayed in a responsive grid that adapts to screen size:
+
+```html
+<div id="post-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+    <!-- Post cards will be dynamically added here -->
+</div>
+```
+
+### Grid Behavior
+
+<Tabs>
+  <Tab title="Mobile">
+    - Single column layout
+    - Full width cards
+    - Stacked vertically
+  </Tab>
+  <Tab title="Tablet (md)">
+    - Two columns (`md:grid-cols-2`)
+    - Cards arranged in pairs
+    - 8-unit gap between items
+  </Tab>
+  <Tab title="Desktop (lg)">
+    - Three columns (`lg:grid-cols-3`)
+    - Maximum content density
+    - Consistent spacing
+  </Tab>
+</Tabs>
+
+## Post Content Display
+
+A dedicated content area shows the selected blog post:
+
+```html
+<div id="content" class="mt-8 p-6 bg-gray-800 rounded-lg hidden">
+    <h2 class="text-xl font-bold text-white mb-4">Select a post to read 📰</h2>
+</div>
+```
+
+<Accordion title="Content Area Features">
+- **Initial State**: Hidden by default (`hidden` class)
+- **Styling**: Dark gray background with rounded corners
+- **Padding**: Generous spacing (`p-6`)
+- **Prompt**: Guides users to select a post
+- **Dynamic Content**: Populated by JavaScript when post is selected
+</Accordion>
+
+## JavaScript Integration
+
+The blog page uses two JavaScript libraries:
+
+### External Libraries
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+<script src="https://milesonerd.github.io/assets/scripts/functions.js"></script>
+<script src="scripts/list-posts.js"></script>
+```
+
+<CardGroup cols={3}>
+  <Card title="Showdown.js" icon="markdown">
+    Markdown to HTML converter for rendering blog posts
+  </Card>
+  <Card title="functions.js" icon="code">
+    Shared utility functions used across the site
+  </Card>
+  <Card title="list-posts.js" icon="list">
+    Blog-specific script for loading and displaying posts
+  </Card>
+</CardGroup>
+
+<Note>
+  Showdown.js is loaded from CDN to convert markdown files into HTML for display in the browser.
+</Note>
+
+## Blog Post Structure
+
+Blog posts are stored as markdown files in the `blog/posts/` directory:
+
+### Example Post File
+
+```markdown
+# My new Website
+
+This is my new personal website, created using Tailwind CSS
+
+## "If it hasn't worked out yet, it's because it's not over yet"
+
+### Enzo Fuke (MilesONerd)
+```
+
+### File Organization
+
+```
+blog/
+├── index.html
+├── posts/
+│   └── 05-10-2025.md
+└── scripts/
+    └── list-posts.js
+```
+
+<Tip>
+  Blog posts use date-based filenames (MM-DD-YYYY.md) for easy chronological organization.
+</Tip>
+
+## Post List Styling
+
+Custom CSS provides styling for the post list elements:
+
+```css
+.post-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.post-list li {
+    background-color: #2d3748;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.post-list li:hover {
+    background-color: #4a5568;
+}
+
+.post-list a {
+    text-decoration: none;
+    color: #63b3ed;
+    font-weight: bold;
+}
+
+.post-list a:hover {
+    color: #e2e8f0;
+}
+```
+
+<Accordion title="Styling Details">
+**List Items**:
+- No bullet points (`list-style-type: none`)
+- Dark gray background (`#2d3748`)
+- Rounded corners (8px)
+- Smooth hover transition (0.3s)
+- Lighter background on hover (`#4a5568`)
+
+**Links**:
+- No underline
+- Blue color (`#63b3ed`)
+- Bold font weight
+- White color on hover (`#e2e8f0`)
+</Accordion>
+
+## Design Elements
+
+### Color Scheme
+
+<CardGroup cols={2}>
+  <Card title="Backgrounds">
+    - Section: `bg-gray-800`
+    - Post cards: `#2d3748`
+    - Hover state: `#4a5568`
+  </Card>
+  <Card title="Text & Accents">
+    - Headings: `text-white`
+    - Subtitle: `text-blue-300`
+    - Links: `#63b3ed`
+    - Badge: `text-blue-400`
+  </Card>
+</CardGroup>
+
+### Typography
+
+```html
+<!-- Main heading -->
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+
+<!-- Subtitle -->
+<p class="text-xl text-blue-300 max-w-3xl mx-auto">
+
+<!-- Badge -->
+<span class="text-sm font-semibold text-blue-400">
+```
+
+## Responsive Features
+
+### Mobile Optimization
+
+- Single column grid for easy scrolling
+- Touch-friendly tap targets
+- Full-width content area
+- Readable text sizing
+
+### Desktop Enhancements
+
+- Three-column grid maximizes screen space
+- Hover effects on post cards
+- Centered content with max-width constraints
+- Generous spacing between elements
+
+<Note>
+  The layout uses Tailwind's responsive breakpoints: `md:` (768px) and `lg:` (1024px).
+</Note>
+
+## Meta Information
+
+Blog-specific meta tags for SEO:
+
+```html
+<title>Blog | Enzo Fuke | If it hasn't worked out yet, it's because it's not over yet</title>
+<meta property="og:url" content="https://milesonerd.netlify.app/blog" />
+<meta property="og:title" content="Enzo Fuke | If it hasn't worked out yet, it's because it's not over yet" />
+<meta name="twitter:url" content="https://milesonerd.netlify.app/blog" />
+```
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Dynamic Loading" icon="refresh">
+    - Posts loaded from markdown files
+    - JavaScript-powered rendering
+    - No page reload needed
+    - Showdown.js markdown converter
+  </Card>
+  <Card title="User Experience" icon="user">
+    - Clean, modern design
+    - Responsive grid layout
+    - Hover effects and transitions
+    - Clear visual hierarchy
+  </Card>
+  <Card title="Content Management" icon="folder">
+    - Markdown-based posts
+    - Date-based file naming
+    - Easy to add new posts
+    - No database required
+  </Card>
+  <Card title="Performance" icon="zap">
+    - CDN-hosted libraries
+    - Lazy content loading
+    - Optimized images
+    - Minimal dependencies
+  </Card>
+</CardGroup>
+
+## Shared Components
+
+The blog page includes:
+
+- **Fixed navigation header** - Same as homepage
+- **Footer with social links** - 16+ social platforms
+- **Legal links** - Terms, Privacy, Cookies, Accessibility
+- **Font Awesome icons** - Version 6.4.0
+
+<Info>
+  All pages share the same header and footer components for consistent navigation and branding.
+</Info>

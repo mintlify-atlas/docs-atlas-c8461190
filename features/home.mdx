@@ -1,0 +1,295 @@
+---
+title: Homepage
+description: The main landing page featuring a hero section with terminal animation and social links
+---
+
+## Overview
+
+The homepage serves as the main entry point for the MilesONerd website, featuring a striking hero section with gradient backgrounds, an animated terminal display, and a comprehensive footer with social media links.
+
+<Info>
+  The homepage uses a dark theme with blue gradients and includes custom CSS animations for a modern, professional look.
+</Info>
+
+## Key Sections
+
+### Fixed Navigation Header
+
+The header remains fixed at the top of the page with backdrop blur for improved readability while scrolling.
+
+```html
+<header class="fixed w-full z-50 bg-gray-900 bg-opacity-90 backdrop-blur-sm">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="/" class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl">
+                    <img src="https://milesonerd.github.io/assets/image/Logo/Phoenix.jpg" alt="Enzo Fuke" width="50" height="50" loading="lazy" class="w-full h-full rounded-full object-cover" />
+                </a>
+                <span class="ml-3 text-xl font-bold text-white">Enzo Fuke</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/blog" class="text-gray-300 hover:text-blue-400 transition">Blog</a>
+                <a href="/about" class="text-gray-300 hover:text-blue-400 transition">About</a>
+                <a href="/contact" class="text-gray-300 hover:text-blue-400 transition">Contact</a>
+            </nav>
+        </div>
+    </div>
+</header>
+```
+
+<Accordion title="Navigation Features">
+  - **Fixed Positioning**: Header stays visible while scrolling
+  - **Backdrop Blur**: Semi-transparent background with blur effect (`bg-opacity-90 backdrop-blur-sm`)
+  - **Responsive Design**: Mobile menu button visible on small screens (`md:hidden`)
+  - **Hover Effects**: Navigation links change color on hover with smooth transitions
+  - **Logo Integration**: Circular Phoenix logo as branding element
+</Accordion>
+
+### Hero Section
+
+The hero section features a gradient background, tagline, and an animated terminal display.
+
+<CardGroup cols={2}>
+  <Card title="Left Column" icon="align-left">
+    - Badge with name
+    - Main heading with glow effect
+    - Bio paragraph describing skills
+    - CTA buttons (Public Repositories, ORCID)
+    - Trust indicators with certifications
+  </Card>
+  <Card title="Right Column" icon="terminal">
+    - Animated terminal window
+    - Typewriter effect text
+    - Classic terminal dots (red, yellow, green)
+    - Welcome message
+  </Card>
+</CardGroup>
+
+#### Hero Gradient Background
+
+The hero section uses a custom gradient defined in the CSS:
+
+```css
+.hero-gradient {
+    background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+}
+```
+
+#### Terminal Animation
+
+The terminal component features realistic terminal styling with animated typewriter effects:
+
+```html
+<div class="terminal w-full max-w-md h-64 p-6 shadow-2xl">
+    <div class="terminal-dot red"></div>
+    <div class="terminal-dot yellow"></div>
+    <div class="terminal-dot green"></div>
+    <div class="mt-10">
+        <div class="typewriter text-lg mb-4">> Hello World...</div>
+        <div class="typewriter text-lg mb-4 delay-1000">> Downloading resources...</div>
+        <div class="typewriter text-lg mb-4 delay-2000">> Running.</div>
+        <div class="text-xl font-bold text-green-400 mt-6">Welcome to my new website.</div>
+    </div>
+</div>
+```
+
+<Accordion title="Terminal Animation Details">
+**CSS Animation**:
+```css
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid #0f0;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: 
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #0f0 }
+}
+```
+
+**Terminal Window**:
+- Dark background (`#1e1e1e`)
+- Green terminal text (`#0f0`)
+- Courier New monospace font
+- Rounded corners (8px)
+- Classic macOS-style dots (red, yellow, green)
+</Accordion>
+
+### Call-to-Action Buttons
+
+The hero section includes two prominent CTA buttons:
+
+```html
+<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+    <a href="https://github.com/MilesONerd?tab=repositories" 
+       class="px-8 py-4 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition shadow-lg text-center">
+        Public Repositories
+    </a>
+    <a href="https://orcid.org/0009-0000-1734-5150" 
+       class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:bg-opacity-10 transition text-center">
+        ORCID
+    </a>
+</div>
+```
+
+<Note>
+  The primary button uses a solid white background while the secondary button uses a bordered outline style, creating clear visual hierarchy.
+</Note>
+
+### Footer
+
+The footer is divided into five main columns:
+
+<Tabs>
+  <Tab title="Brand & Social">
+    - Site logo and name
+    - Tagline: "If it hasn't worked out yet, it's because it's not over yet"
+    - 16+ social media icons including:
+      - GitHub, GitLab, Bitbucket, Gitea, Codeberg
+      - Hugging Face, Kaggle
+      - Instagram, Mastodon, Threads
+      - Stack Overflow, WakaTime
+      - And more platforms
+  </Tab>
+  <Tab title="Website Info">
+    - Repository link
+    - Source code license
+    - Content license (CC-BY)
+    - GitHub hosting info
+    - Netlify hosting info
+  </Tab>
+  <Tab title="Resources">
+    - Neurenix project
+    - Closure Next project
+  </Tab>
+  <Tab title="Contact">
+    - Contact page link
+    - Location indicator
+  </Tab>
+</Tabs>
+
+#### Responsive Social Icons
+
+Social icons adapt to different screen sizes using responsive CSS:
+
+```css
+.social-icon {
+    width: 8vw !important; 
+    height: 8vw !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    object-fit: contain !important;
+}
+
+@media (max-width: 640px) { 
+    .social-icon {
+        width: 12vw !important; 
+        height: 12vw !important;
+        max-width: 40px !important;
+        max-height: 40px !important;
+    }
+}
+```
+
+## Design Elements
+
+### Color Scheme
+
+<CardGroup cols={3}>
+  <Card title="Primary Colors">
+    - Dark Gray: `bg-gray-900`
+    - Medium Gray: `bg-gray-800`
+    - Blue: `bg-blue-600`
+  </Card>
+  <Card title="Text Colors">
+    - White: `text-white`
+    - Light Gray: `text-gray-300`
+    - Blue Tint: `text-blue-400`
+  </Card>
+  <Card title="Accents">
+    - Hero gradient: `#000428` to `#004e92`
+    - Glow effect: `rgba(0, 150, 255, 0.7)`
+    - Terminal green: `#0f0`
+  </Card>
+</CardGroup>
+
+### Animations
+
+<Accordion title="Pulse Animation">
+Used on the "Another site by MilesONerd" button:
+
+```css
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+```
+</Accordion>
+
+<Accordion title="Glow Effect">
+Applied to the main heading:
+
+```css
+.glow {
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.7);
+}
+```
+</Accordion>
+
+## Meta Tags & SEO
+
+The homepage includes comprehensive meta tags for SEO and social sharing:
+
+```html
+<meta name="description" content="If it hasn't worked out yet, it's because it's not over yet">
+<meta name="author" content="Enzo Fuke">
+
+<!-- Open Graph -->
+<meta property="og:url" content="https://milesonerd.netlify.app" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Enzo Fuke" />
+<meta property="og:title" content="Enzo Fuke | If it hasn't worked out yet, it's because it's not over yet" />
+<meta property="og:description" content="If it hasn't worked out yet, it's because it's not over yet" />
+<meta property="og:image" content="https://milesonerd.github.io/assets/image/Logo/Phoenix.jpg" />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:domain" content="milesonerd.netlify.app" />
+<meta name="twitter:url" content="https://milesonerd.netlify.app" />
+```
+
+<Tip>
+  The site includes Open Graph and Twitter Card meta tags for rich previews when shared on social media platforms.
+</Tip>
+
+## Responsive Behavior
+
+- **Desktop**: Two-column hero layout with content and terminal side-by-side
+- **Tablet**: Stacked layout with adjusted spacing
+- **Mobile**: Single column layout, hamburger menu appears
+- **Social Icons**: Scale responsively based on viewport width
+
+## External Dependencies
+
+- **Tailwind CSS**: `cdn.tailwindcss.com/3.4.16`
+- **Font Awesome**: `6.4.0` for icons
+- **Custom Styles**: `/assets/style/styles.css`
+- **Functions Script**: External JavaScript for interactions

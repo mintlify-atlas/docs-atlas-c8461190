@@ -1,0 +1,555 @@
+---
+title: Styling & Design
+description: CSS architecture, Tailwind usage, and custom styling for the MilesONerd website
+---
+
+The MilesONerd website combines Tailwind CSS for utility-first styling with custom CSS for unique animations and components. This page covers the complete styling approach.
+
+## Styling Architecture
+
+The website uses a two-layer approach:
+
+<Steps>
+  <Step title="Tailwind CSS (CDN)">
+    Utility classes for layout, spacing, typography, and responsive design
+  </Step>
+  
+  <Step title="Custom CSS">
+    Animations, special effects, and component-specific styles in `assets/style/styles.css`
+  </Step>
+</Steps>
+
+## Tailwind CSS Integration
+
+Tailwind is loaded via CDN for simplicity:
+
+```html
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+```
+
+### Key Tailwind Patterns
+
+The site extensively uses Tailwind's utility classes:
+
+<CodeGroup>
+
+```html Layout Classes
+<!-- Container with responsive padding -->
+<div class="container mx-auto px-6 py-4">
+
+<!-- Flexbox utilities -->
+<div class="flex items-center justify-between">
+
+<!-- Grid layout for blog posts -->
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+```
+
+```html Color & Background
+<!-- Dark theme background -->
+<body class="bg-gray-900 text-gray-100">
+
+<!-- Gradient backgrounds -->
+<section class="bg-gradient-to-r from-blue-900 to-gray-900">
+
+<!-- Hover states -->
+<a class="text-gray-300 hover:text-blue-400 transition">
+```
+
+```html Responsive Design
+<!-- Mobile-first responsive utilities -->
+<h1 class="text-4xl md:text-5xl lg:text-6xl">
+
+<!-- Hidden on mobile, visible on desktop -->
+<nav class="hidden md:flex space-x-8">
+
+<!-- Responsive grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+```
+
+```html Typography
+<!-- Font utilities -->
+<body class="font-sans antialiased">
+
+<!-- Text sizing and weights -->
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+
+<!-- Text opacity -->
+<p class="text-xl text-blue-100 opacity-90 mb-8">
+```
+
+</CodeGroup>
+
+<Note>
+  The site uses Tailwind's default configuration without customization, relying on the CDN build.
+</Note>
+
+## Color Scheme
+
+The website uses a dark theme with blue accents:
+
+### Primary Colors
+
+| Color | Tailwind Class | Usage |
+|-------|----------------|-------|
+| Background | `bg-gray-900` | Main page background |
+| Secondary BG | `bg-gray-800` | Cards, sections |
+| Text | `text-gray-100` | Primary text |
+| Secondary Text | `text-gray-300`, `text-gray-400` | Links, secondary info |
+| Accent | `text-blue-400`, `bg-blue-600` | CTAs, highlights |
+| Hover | `hover:text-blue-400` | Interactive elements |
+
+### Gradient Backgrounds
+
+Custom gradient defined in `styles.css`:
+
+```css
+.hero-gradient {
+    background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+}
+```
+
+Used in the hero section for a dramatic blue-to-dark gradient effect.
+
+## Custom CSS (styles.css)
+
+The `assets/style/styles.css` file contains all custom styles and animations. Here's the complete breakdown:
+
+### Global Box Sizing
+
+```css
+* {
+    box-sizing: border-box;
+}
+```
+
+Ensures consistent box model across all elements.
+
+### Hero Gradient
+
+```css
+.hero-gradient {
+    background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+}
+```
+
+Creates a striking diagonal gradient from deep navy to blue, used on the homepage hero section.
+
+### Glow Effect
+
+```css
+.glow {
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.7);
+}
+```
+
+Adds a subtle blue glow to text elements, creating a neon-like effect on headings.
+
+<Card title="Usage Example" icon="sparkles">
+  Applied to the main hero heading: "If it hasn't worked out yet, it's because it's not over yet"
+</Card>
+
+### Pulse Animation
+
+Subtle scaling animation for attention-grabbing elements:
+
+```css
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+```
+
+**Used on**: The "Another site by MilesONerd" button in the header.
+
+### Terminal Component
+
+The homepage features a realistic terminal window:
+
+<CodeGroup>
+
+```css Terminal Container
+.terminal {
+    background-color: #1e1e1e;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    border-radius: 8px;
+    position: relative;
+}
+
+.terminal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: #333;
+    border-radius: 8px 8px 0 0;
+}
+```
+
+```css Terminal Dots
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 9px;
+}
+
+.terminal-dot.red { 
+    background: #ff5f56; 
+    left: 15px; 
+}
+
+.terminal-dot.yellow { 
+    background: #ffbd2e; 
+    left: 35px; 
+}
+
+.terminal-dot.green { 
+    background: #27c93f; 
+    left: 55px; 
+}
+```
+
+</CodeGroup>
+
+Creates macOS-style window controls (red, yellow, green dots).
+
+### Typewriter Animation
+
+An iconic typing effect for terminal text:
+
+```css
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid #0f0;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: 
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #0f0 }
+}
+```
+
+<Accordion title="How the typewriter effect works">
+  1. **Text overflow**: Hidden to reveal text gradually
+  2. **Border-right**: Creates blinking cursor effect
+  3. **Typing animation**: Expands width from 0 to 100% in steps
+  4. **Blink animation**: Toggles cursor visibility
+  5. **Letter-spacing**: Monospace terminal aesthetic
+</Accordion>
+
+**Example usage** in HTML:
+
+```html
+<div class="typewriter text-lg mb-4">> Hello World...</div>
+<div class="typewriter text-lg mb-4 delay-1000">> Downloading resources...</div>
+<div class="typewriter text-lg mb-4 delay-2000">> Running.</div>
+```
+
+### Blog Post Styles
+
+Custom styles for the blog listing:
+
+```css
+.post-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.post-list li {
+    background-color: #2d3748;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.post-list li:hover {
+    background-color: #4a5568;
+}
+
+.post-list a {
+    text-decoration: none;
+    color: #63b3ed;
+    font-weight: bold;
+}
+
+.post-list a:hover {
+    color: #e2e8f0;
+}
+```
+
+Provides clean, card-like appearance for blog posts with smooth hover transitions.
+
+### Social Icons Responsive Sizing
+
+Complex responsive system for social media icons in the footer:
+
+<CodeGroup>
+
+```css Base Styles
+.social-icon {
+    width: 8vw !important; 
+    height: 8vw !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    object-fit: contain !important;
+}
+
+.social-icons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 10px;
+    padding: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+}
+```
+
+```css Mobile (≤640px)
+@media (max-width: 640px) { 
+    .social-icon {
+        width: 12vw !important; 
+        height: 12vw !important;
+        max-width: 40px !important;
+        max-height: 40px !important;
+        min-width: 15px !important;
+        min-height: 15px !important;
+    }
+}
+```
+
+```css Small Mobile (≤480px)
+@media (max-width: 480px) {
+    .social-icon {
+        width: 15vw !important;  
+        height: 15vw !important;
+        max-width: 35px !important;  
+        max-height: 35px !important;
+        min-width: 20px !important;  
+        min-height: 20px !important;
+    }
+}
+```
+
+```css Extra Small (≤320px)
+@media (max-width: 320px) {
+    .social-icon {
+        width: 20vw !important;  
+        height: 20vw !important;
+        max-width: 30px !important; 
+        max-height: 30px !important;
+        min-width: 15px !important;  
+        min-height: 15px !important;
+    }
+}
+```
+
+</CodeGroup>
+
+<Warning>
+  The `!important` flags are used to override inline styles. Consider refactoring to avoid inline styles for cleaner CSS.
+</Warning>
+
+## Typography
+
+The site uses system fonts via Tailwind's `font-sans` class:
+
+```css
+font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 
+             "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+```
+
+### Font Awesome Icons
+
+Icons are loaded from Font Awesome CDN:
+
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+```
+
+**Common icon usage**:
+
+```html
+<!-- Social icons -->
+<i class="fas fa-envelope"></i>
+<i class="fas fa-map-marker-alt"></i>
+
+<!-- Blog category icons -->
+<i class="fas fa-code"></i>
+<i class="fas fa-brain"></i>
+<i class="fas fa-server"></i>
+```
+
+## Responsive Design
+
+The site is mobile-first with three main breakpoints:
+
+| Breakpoint | Tailwind Class | Width | Common Uses |
+|------------|----------------|-------|-------------|
+| Mobile | (default) | < 768px | Single column, hidden nav |
+| Tablet | `md:` | ≥ 768px | 2-column grids, show nav |
+| Desktop | `lg:` | ≥ 1024px | 3-column grids, larger text |
+
+### Responsive Patterns
+
+<Accordion title="Navigation">
+  ```html
+  <!-- Hidden on mobile -->
+  <nav class="hidden md:flex space-x-8">
+  
+  <!-- Visible on mobile -->
+  <button class="md:hidden text-gray-300">
+      <i class="fas fa-bars"></i>
+  </button>
+  ```
+</Accordion>
+
+<Accordion title="Grid Layouts">
+  ```html
+  <!-- Responsive blog grid -->
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  
+  <!-- Responsive footer grid -->
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+  ```
+</Accordion>
+
+<Accordion title="Typography">
+  ```html
+  <!-- Responsive heading -->
+  <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold">
+  
+  <!-- Responsive paragraph -->
+  <p class="text-base md:text-lg lg:text-xl">
+  ```
+</Accordion>
+
+## Effects & Animations
+
+Summary of all custom effects:
+
+<CardGroup cols={2}>
+  <Card title="Pulse" icon="wave-pulse">
+    2-second infinite scaling animation (1.0 → 1.05 → 1.0)
+  </Card>
+  
+  <Card title="Typewriter" icon="keyboard">
+    3.5-second typing effect with blinking green cursor
+  </Card>
+  
+  <Card title="Glow" icon="sun">
+    Blue text shadow for neon-like effect
+  </Card>
+  
+  <Card title="Transitions" icon="arrows-rotate">
+    0.3s color transitions on hover states
+  </Card>
+</CardGroup>
+
+## Component Styles
+
+### Header
+
+```html
+<header class="fixed w-full z-50 bg-gray-900 bg-opacity-90 backdrop-blur-sm">
+```
+
+- **Fixed positioning**: Stays at top while scrolling
+- **Backdrop blur**: Semi-transparent with blur effect
+- **High z-index**: Overlays other content
+
+### Cards
+
+```html
+<div class="bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer">
+```
+
+- **Rounded corners**: `rounded-xl` for modern look
+- **Shadow elevation**: Increases on hover
+- **Cursor change**: Indicates interactivity
+
+### Buttons
+
+Two button styles used throughout:
+
+<CodeGroup>
+
+```html Primary Button
+<a class="px-8 py-4 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition shadow-lg">
+    Public Repositories
+</a>
+```
+
+```html Secondary Button
+<a class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:bg-opacity-10 transition">
+    ORCID
+</a>
+```
+
+</CodeGroup>
+
+## Best Practices
+
+<Steps>
+  <Step title="Use Tailwind First">
+    Leverage Tailwind utilities before writing custom CSS
+  </Step>
+  
+  <Step title="Keep Custom CSS Minimal">
+    Only use custom CSS for animations and unique effects
+  </Step>
+  
+  <Step title="Maintain Consistency">
+    Reuse color classes and spacing patterns across pages
+  </Step>
+  
+  <Step title="Test Responsively">
+    Check all breakpoints, especially mobile (most visitors)
+  </Step>
+</Steps>
+
+## Performance Considerations
+
+<Note>
+  **CDN Loading**: Tailwind CSS loads from CDN, which may cause a flash of unstyled content (FOUC). The custom CSS loads quickly from the same domain.
+</Note>
+
+**Optimization opportunities**:
+- Consider building a custom Tailwind CSS file with only used classes
+- Minify `styles.css` for production
+- Use CSS containment for blog post cards
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Project Structure" icon="folder-tree" href="./structure">
+    Understand the file organization
+  </Card>
+  
+  <Card title="Deployment" icon="rocket" href="./deployment">
+    Learn about the build and deployment process
+  </Card>
+</CardGroup>

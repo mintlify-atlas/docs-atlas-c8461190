@@ -1,0 +1,308 @@
+---
+title: About Page
+description: Personal biography and website history timeline
+---
+
+## Overview
+
+The About page provides insight into the site owner's background, technical expertise, and philosophy. It features a two-column layout with biographical information and a visual timeline showing the website's evolution.
+
+<Info>
+  This page uses the same dark theme and navigation as the homepage but focuses on storytelling through text and timeline visualization.
+</Info>
+
+## Page Structure
+
+### About Section Layout
+
+The about section uses a responsive two-column layout:
+
+```html
+<section id="about" class="py-20 px-6">
+    <div class="container mx-auto">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+                <!-- Biographical content -->
+            </div>
+            <div class="lg:w-1/2">
+                <!-- Timeline card -->
+            </div>
+        </div>
+    </div>
+</section>
+```
+
+<CardGroup cols={2}>
+  <Card title="Left Column" icon="user">
+    - "Who am I?" badge
+    - Three paragraphs of biography
+    - Technical skills overview
+    - Philosophy and values
+  </Card>
+  <Card title="Right Column" icon="clock">
+    - Timeline card with dark background
+    - Three historical milestones
+    - Numbered steps (1, 2, 3)
+    - Dates and descriptions
+  </Card>
+</CardGroup>
+
+## Biographical Content
+
+### Section Badge
+
+The page opens with a subtle badge introducing the content:
+
+```html
+<span class="inline-block px-3 py-1 text-sm font-semibold text-blue-400 bg-blue-900 bg-opacity-50 rounded-full mb-4">
+    Who am I?
+</span>
+```
+
+### Content Structure
+
+The biography is organized into three paragraphs covering:
+
+<Accordion title="Paragraph 1: Technical Skills">
+**Programming Languages**:
+- Python, SQL, Go, C#, R, Assembly, Rust, Java, F#, Solidity
+- Ruby, Kotlin, TypeScript, C++, C, JavaScript, LUA, VBA
+
+**Database Technologies**:
+- NoSQL databases
+
+**Markup Languages**:
+- Markdown, HTML, XML, YAML
+
+**Styling**:
+- CSS
+
+**Shell Languages**:
+- Shell Script, GNU Bash, PowerShell
+
+**Data Formats**:
+- JSON
+
+**Interests**:
+- Artificial Intelligence (AI)
+- Cybersecurity
+- Web3 and decentralization
+</Accordion>
+
+<Accordion title="Paragraph 2: Passion & Philosophy">
+- Deep interest in data, AI, and cybersecurity
+- Constant learning and knowledge expansion
+- Advocacy for decentralized systems
+- Support for user control over data and online experiences
+- Love for Open Source and Linux
+</Accordion>
+
+<Accordion title="Paragraph 3: Mission & Values">
+- Strong foundation in technical and ethical aspects
+- Focus on innovation, privacy, security, and freedom
+- Commitment to continuous learning
+- Goal to make meaningful impact in technology
+</Accordion>
+
+## Site History Timeline
+
+The timeline card displays the website's evolution through three major milestones:
+
+```html
+<div class="bg-gray-800 rounded-xl p-8 shadow-2xl">
+    <h3 class="text-xl font-bold text-white mb-6">Site History</h3>
+    <div class="space-y-6">
+        <!-- Timeline items -->
+    </div>
+</div>
+```
+
+### Timeline Items
+
+Each timeline item follows this structure:
+
+```html
+<div class="flex">
+    <div class="flex-shrink-0 mr-4">
+        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-900 text-blue-300 font-bold text-xl">
+            1
+        </div>
+    </div>
+    <div>
+        <h4 class="text-lg font-semibold text-white mb-1">2024 - Website creation</h4>
+        <p class="text-gray-400">Creation of the original website</p>
+    </div>
+</div>
+```
+
+<Steps>
+  <Step title="2024 - Website creation">
+    Creation of the original website
+  </Step>
+  <Step title="2025 - Change of website appearance">
+    Website rewritten from scratch using Tailwind CSS
+  </Step>
+  <Step title="2025 - Website hosting change">
+    Moving from GitHub Pages to Netlify
+  </Step>
+</Steps>
+
+## Design Elements
+
+### Timeline Card Styling
+
+<Accordion title="Card Appearance">
+```html
+<div class="bg-gray-800 rounded-xl p-8 shadow-2xl">
+```
+
+**Features**:
+- Dark gray background (`bg-gray-800`)
+- Rounded corners (`rounded-xl`)
+- Generous padding (`p-8`)
+- Strong shadow for depth (`shadow-2xl`)
+</Accordion>
+
+### Numbered Step Indicators
+
+The circular number badges use:
+
+```css
+w-12 h-12              /* Fixed size */
+rounded-full           /* Perfect circle */
+bg-blue-900            /* Dark blue background */
+text-blue-300          /* Light blue text */
+font-bold text-xl      /* Large, bold numbers */
+```
+
+<Tip>
+  The numbered circles create a clear visual hierarchy and make the timeline easy to follow.
+</Tip>
+
+## Typography
+
+### Text Hierarchy
+
+<CardGroup cols={3}>
+  <Card title="Headings">
+    - H3: `text-xl font-bold text-white`
+    - H4: `text-lg font-semibold text-white`
+  </Card>
+  <Card title="Body Text">
+    - Main: `text-lg text-gray-300`
+    - Secondary: `text-gray-400`
+  </Card>
+  <Card title="Accents">
+    - Badge: `text-sm font-semibold text-blue-400`
+    - Numbers: `text-blue-300`
+  </Card>
+</CardGroup>
+
+### Text Sizing
+
+```html
+<!-- Badge text -->
+<span class="text-sm font-semibold">Who am I?</span>
+
+<!-- Main paragraph text -->
+<p class="text-lg text-gray-300 mb-6">...</p>
+
+<!-- Timeline heading -->
+<h4 class="text-lg font-semibold text-white mb-1">2024 - Website creation</h4>
+
+<!-- Timeline description -->
+<p class="text-gray-400">Creation of the original website</p>
+```
+
+## Shared Components
+
+The About page includes the same header and footer as the homepage:
+
+<Accordion title="Fixed Header">
+- Same navigation structure
+- Logo and site name
+- Links to Blog, About, Contact
+- "Another site by MilesONerd" button
+- Mobile menu toggle
+</Accordion>
+
+<Accordion title="Footer">
+- Social media icons (16+ platforms)
+- Website information
+- Resources links
+- Contact information
+- Legal links (Terms, Privacy, Cookies, Accessibility)
+- Copyright notice
+</Accordion>
+
+## Responsive Behavior
+
+### Desktop View (lg and above)
+
+```html
+<div class="flex flex-col lg:flex-row items-center">
+    <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+        <!-- Biography -->
+    </div>
+    <div class="lg:w-1/2">
+        <!-- Timeline -->
+    </div>
+</div>
+```
+
+- Two columns side-by-side
+- Biography on left (50% width)
+- Timeline on right (50% width)
+- Right padding on biography for spacing
+
+### Mobile/Tablet View
+
+- Stacked vertical layout (`flex-col`)
+- Biography appears first
+- Timeline below with bottom margin
+- Full width for both sections
+
+<Note>
+  The layout automatically adapts at the `lg` breakpoint (1024px) in Tailwind CSS.
+</Note>
+
+## Content Spacing
+
+```html
+<!-- Section spacing -->
+<section class="py-20 px-6">
+
+<!-- Paragraph spacing -->
+<p class="text-lg text-gray-300 mb-6">...</p>
+<p class="text-lg text-gray-300 mb-8">...</p>
+
+<!-- Timeline item spacing -->
+<div class="space-y-6">
+```
+
+## Meta Information
+
+The page includes customized meta tags:
+
+```html
+<title>About | Enzo Fuke | If it hasn't worked out yet, it's because it's not over yet</title>
+<meta property="og:url" content="https://milesonerd.netlify.app/about" />
+<meta name="twitter:url" content="https://milesonerd.netlify.app/about" />
+```
+
+## Key Features Summary
+
+<CardGroup cols={2}>
+  <Card title="Content" icon="file-text">
+    - Comprehensive technical background
+    - Personal philosophy and values
+    - Website evolution timeline
+    - Professional interests
+  </Card>
+  <Card title="Design" icon="palette">
+    - Clean two-column layout
+    - Visual timeline with numbered steps
+    - Consistent dark theme
+    - Responsive typography
+  </Card>
+</CardGroup>

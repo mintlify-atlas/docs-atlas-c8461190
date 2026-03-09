@@ -1,0 +1,636 @@
+---
+title: Deployment & Build Process
+description: How the MilesONerd website is built and deployed to Netlify
+---
+
+The MilesONerd website is deployed on Netlify with an automated build process that generates the blog post index. This page covers the complete deployment workflow.
+
+## Hosting Overview
+
+<Card title="Deployment Platform" icon="netlify">
+  The website is hosted on **Netlify**, with automatic deployments from the GitHub repository.
+</Card>
+
+### Why Netlify?
+
+- Zero-config static hosting
+- Automatic HTTPS/SSL certificates
+- Global CDN distribution
+- Continuous deployment from Git
+- Serverless functions support (if needed)
+- Built-in form handling
+
+## Netlify Configuration
+
+The site is configured via `netlify.toml` in the root directory:
+
+```toml
+[build]
+  publish = "."
+  command = "chmod +x blog/update-posts.sh && ./blog/update-posts.sh"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+<AccordionGroup>
+  <Accordion title="[build] Section">
+    **publish = "."**: Deploy the entire root directory
+    
+    **command**: Run the blog indexing script during build
+    - `chmod +x blog/update-posts.sh` - Make the script executable
+    - `./blog/update-posts.sh` - Generate the blog post index
+  </Accordion>
+  
+  <Accordion title="[build.environment]">
+    **NODE_VERSION = "18"**: Ensures consistent Node.js version for builds
+    
+    <Note>
+      Even though this is a static site, Node.js is specified for potential future use of build tools.
+    </Note>
+  </Accordion>
+  
+  <Accordion title="[[redirects]]">
+    **SPA-style routing**: All routes serve `index.html` with 200 status
+    
+    This allows clean URLs like `/about` instead of `/about.html`
+  </Accordion>
+</AccordionGroup>
+
+## Build Process
+
+The build process is minimal but essential:
+
+<Steps>
+  <Step title="Trigger Build">
+    Build is triggered by:
+    - Git push to main branch
+    - Manual deployment from Netlify dashboard
+    - GitHub Actions (weekly scheduled builds)
+  </Step>
+  
+  <Step title="Execute Build Command">
+    Netlify runs the build command:
+    ```bash
+    chmod +x blog/update-posts.sh && ./blog/update-posts.sh
+    ```
+  </Step>
+  
+  <Step title="Generate Blog Index">
+    The script scans `blog/posts/` and creates `blog/posts.json`
+  </Step>
+  
+  <Step title="Deploy Static Files">
+    All files from the root directory are published to Netlify's CDN
+  </Step>
+</Steps>
+
+## Blog Update Script
+
+The `blog/update-posts.sh` script is the core of the build process:
+
+```bash
+POSTS_DIR="blog/posts"
+JSON_FILE="blog/posts.json"
+
+# Initialize JSON array
+echo "[" > $JSON_FILE
+
+first=true
+for file in $POSTS_DIR/*.md; do
+  if [ -f "$file" ]; then
+    filename=$(basename "$file")
+    title=${filename%.md}
+    
+    # Convert filename to title (capitalize words)
+    title=$(echo $title | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+    
+    # Extract date from filename (YYYY-MM-DD format)
+    date=$(echo $filename | grep -o "^[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}")
+    if [ -z "$date" ]; then
+      date=$(date +"%Y-%m-%d")
+    fi
+    
+    # Add comma separator (except for first entry)
+    if [ "$first" = true ]; then
+      first=false
+    else
+      echo "," >> $JSON_FILE
+    fi
+    
+    # Write JSON object
+    echo "  {" >> $JSON_FILE
+    echo "    \"title\": \"$title\"," >> $JSON_FILE
+    echo "    \"path\": \"$file\"," >> $JSON_FILE
+    echo "    \"date\": \"$date\"" >> $JSON_FILE
+    echo -n "  }" >> $JSON_FILE
+  fi
+done
+
+# Close JSON array
+echo "" >> $JSON_FILE
+echo "]" >> $JSON_FILE
+
+echo "posts.json has been updated with $(grep -c "title" $JSON_FILE) posts."
+echo "Posts JSON file is located at: $JSON_FILE"
+```
+
+### How the Script Works
+
+<Steps>
+  <Step title="Initialize Variables">
+    Set paths for posts directory and output JSON file
+  </Step>
+  
+  <Step title="Start JSON Array">
+    Write opening bracket to `posts.json`
+  </Step>
+  
+  <Step title="Loop Through Markdown Files">
+    For each `.md` file in `blog/posts/`:
+    - Extract filename without extension
+    - Convert hyphens to spaces and capitalize words
+    - Extract date from filename (if formatted as YYYY-MM-DD)
+    - Generate JSON object with title, path, and date
+  </Step>
+  
+  <Step title="Handle JSON Formatting">
+    - Add commas between entries (but not before first entry)
+    - Properly format JSON with indentation
+  </Step>
+  
+  <Step title="Close JSON Array">
+    Write closing bracket and log summary
+  </Step>
+</Steps>
+
+### Example Output
+
+Given a post file `blog/posts/05-10-2025.md`, the script generates:
+
+```json
+[
+  {
+    "title": "05 10 2025",
+    "path": "blog/posts/05-10-2025.md",
+    "date": "2025-05-10"
+  }
+]
+```
+
+<Note>
+  The title extraction could be improved to handle more descriptive filenames like `2025-05-10-my-blog-post.md`.
+</Note>
+
+## GitHub Actions Integration
+
+The repository includes GitHub Actions workflows for automation:
+
+### Deploy Workflow
+
+```yaml
+# .github/workflows/deploy.yml
+# Triggers on push to main branch
+# Notifies Netlify to rebuild
+```
+
+### Weekly Deploy
+
+```yaml
+# .github/workflows/deploy-weekly.yml
+# Scheduled weekly builds
+# Ensures site stays fresh with updated dependencies
+```
+
+### Copyright Update
+
+```yaml
+# .github/workflows/update-copyright.yml
+# Automatically updates copyright year in footer
+# Runs annually
+```
+
+<Warning>
+  These workflows may trigger Netlify builds. Ensure you have sufficient build minutes on your Netlify plan.
+</Warning>
+
+## Environment Setup
+
+### Local Development
+
+No build step required for local development:
+
+<Steps>
+  <Step title="Clone Repository">
+    ```bash
+    git clone https://github.com/MilesONerd/website.git
+    cd website
+    ```
+  </Step>
+  
+  <Step title="Generate Blog Index (Optional)">
+    ```bash
+    chmod +x blog/update-posts.sh
+    ./blog/update-posts.sh
+    ```
+  </Step>
+  
+  <Step title="Start Local Server">
+    Use any static server:
+    
+    ```bash
+    # Python 3
+    python -m http.server 8000
+    
+    # Node.js (http-server)
+    npx http-server
+    
+    # PHP
+    php -S localhost:8000
+    ```
+  </Step>
+  
+  <Step title="Open Browser">
+    Navigate to `http://localhost:8000`
+  </Step>
+</Steps>
+
+<Note>
+  All dependencies (Tailwind, Font Awesome) load from CDN, so no npm install required.
+</Note>
+
+### Prerequisites
+
+Minimal requirements:
+
+- **Git**: For version control
+- **Bash**: To run the blog update script
+- **Text editor**: For editing HTML/CSS/JS
+- **Web browser**: For testing
+
+Optional:
+- **Node.js**: If you want to use npm-based servers
+- **Python**: For simple HTTP server
+
+## Deployment Workflow
+
+### Manual Deployment
+
+<Steps>
+  <Step title="Make Changes">
+    Edit HTML, CSS, or add blog posts
+  </Step>
+  
+  <Step title="Test Locally">
+    Run local server and verify changes
+  </Step>
+  
+  <Step title="Generate Blog Index">
+    ```bash
+    ./blog/update-posts.sh
+    ```
+    (Only needed if you added/removed blog posts)
+  </Step>
+  
+  <Step title="Commit and Push">
+    ```bash
+    git add .
+    git commit -m "Your commit message"
+    git push origin main
+    ```
+  </Step>
+  
+  <Step title="Automatic Deploy">
+    Netlify detects the push and builds automatically
+  </Step>
+</Steps>
+
+### Continuous Deployment
+
+Every push to `main` branch triggers:
+
+1. **GitHub Actions**: Runs any configured workflows
+2. **Netlify Build**: 
+   - Pulls latest code
+   - Runs build command
+   - Deploys to CDN
+3. **Live Update**: Site is live within 1-2 minutes
+
+<Card title="Build Time" icon="clock">
+  Typical build takes 10-20 seconds (just running the bash script)
+</Card>
+
+## Redirects and Routing
+
+The redirect configuration enables clean URLs:
+
+```toml
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+### How Routing Works
+
+<AccordionGroup>
+  <Accordion title="Direct File Access">
+    **URL**: `/about.html`
+    
+    **Result**: Serves `about.html` directly
+  </Accordion>
+  
+  <Accordion title="Clean URLs">
+    **URL**: `/about`
+    
+    **Result**: Netlify serves `about.html` (automatic .html appending)
+  </Accordion>
+  
+  <Accordion title="Blog Posts">
+    **URL**: `/blog`
+    
+    **Result**: Serves `blog/index.html`
+  </Accordion>
+  
+  <Accordion title="404 Handling">
+    **URL**: `/nonexistent-page`
+    
+    **Result**: Serves `index.html` with 200 status (SPA-style)
+    
+    <Warning>
+      This means 404 pages return 200 status. Consider adding a custom 404.html page.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+## Adding New Blog Posts
+
+Streamlined workflow for blog content:
+
+<Steps>
+  <Step title="Create Markdown File">
+    ```bash
+    # Use date-based naming
+    touch blog/posts/$(date +%d-%m-%Y).md
+    ```
+  </Step>
+  
+  <Step title="Write Content">
+    ```markdown
+    # My Blog Post Title
+    
+    Content goes here with **markdown** formatting.
+    
+    ## Subheadings work too
+    
+    - Lists
+    - Are
+    - Supported
+    ```
+  </Step>
+  
+  <Step title="Test Locally">
+    ```bash
+    ./blog/update-posts.sh
+    # Start local server and verify
+    ```
+  </Step>
+  
+  <Step title="Deploy">
+    ```bash
+    git add blog/posts/*.md
+    git commit -m "Add new blog post"
+    git push
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  The build script runs automatically on Netlify, so you don't need to commit `posts.json`.
+</Note>
+
+## Performance & Optimization
+
+### Build Optimization
+
+- **Fast builds**: No compilation or transpilation needed
+- **Incremental updates**: Only blog index regenerates
+- **CDN caching**: Netlify's CDN caches static assets globally
+
+### Asset Optimization
+
+Current setup:
+
+| Asset Type | Current Approach | Optimization Opportunity |
+|------------|------------------|-------------------------|
+| CSS | Custom CSS + Tailwind CDN | Build custom Tailwind CSS with only used classes |
+| JavaScript | Vanilla JS + CDN libraries | Minify custom JS files |
+| Images | Hosted on GitHub Pages | Use Netlify Image CDN or optimize images |
+| Fonts | System fonts + Font Awesome CDN | Self-host Font Awesome subset |
+
+### Caching Strategy
+
+<CodeGroup>
+
+```toml Netlify Headers (Example)
+# dist/_headers
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/blog/posts.json
+  Cache-Control: public, max-age=3600
+```
+
+</CodeGroup>
+
+<Warning>
+  Currently, the `dist/_headers` file exists but content is not shown. Consider adding cache headers.
+</Warning>
+
+## Monitoring & Debugging
+
+### Netlify Deploy Logs
+
+Access build logs in Netlify dashboard:
+
+1. Go to Netlify site dashboard
+2. Click "Deploys" tab
+3. Select a deploy
+4. View full build log
+
+### Common Build Issues
+
+<AccordionGroup>
+  <Accordion title="Script Permission Error">
+    **Error**: `Permission denied: blog/update-posts.sh`
+    
+    **Solution**: Build command includes `chmod +x` to fix permissions
+  </Accordion>
+  
+  <Accordion title="Missing posts.json">
+    **Error**: Blog page shows "Error loading posts"
+    
+    **Solution**: Ensure `update-posts.sh` ran successfully during build
+  </Accordion>
+  
+  <Accordion title="Redirect Issues">
+    **Error**: Clean URLs not working
+    
+    **Solution**: Verify `netlify.toml` is in root directory and properly formatted
+  </Accordion>
+</AccordionGroup>
+
+### Testing Builds Locally
+
+Simulate the Netlify build:
+
+```bash
+# Run the exact build command
+chmod +x blog/update-posts.sh && ./blog/update-posts.sh
+
+# Verify output
+cat blog/posts.json
+
+# Check for errors
+echo $?
+```
+
+## Production Checklist
+
+Before deploying to production:
+
+<Steps>
+  <Step title="Content Review">
+    - [ ] All links work
+    - [ ] Images load correctly
+    - [ ] Meta tags are accurate
+    - [ ] No typos or errors
+  </Step>
+  
+  <Step title="Technical Checks">
+    - [ ] Blog index generates correctly
+    - [ ] Responsive design works on all devices
+    - [ ] Forms submit properly (Formspree integration)
+    - [ ] External scripts load (Tailwind, Font Awesome)
+  </Step>
+  
+  <Step title="Performance">
+    - [ ] Images optimized
+    - [ ] No console errors
+    - [ ] Fast page load times
+  </Step>
+  
+  <Step title="SEO & Metadata">
+    - [ ] Page titles unique and descriptive
+    - [ ] Meta descriptions present
+    - [ ] Open Graph tags configured
+    - [ ] Favicon loads correctly
+  </Step>
+</Steps>
+
+## Rollback Procedure
+
+If a deployment breaks the site:
+
+<Steps>
+  <Step title="Netlify Dashboard Rollback">
+    1. Go to Netlify site dashboard
+    2. Click "Deploys" tab
+    3. Find last working deploy
+    4. Click "Publish deploy" button
+  </Step>
+  
+  <Step title="Git Revert (Alternative)">
+    ```bash
+    # Revert to previous commit
+    git revert HEAD
+    git push
+    
+    # Or reset to specific commit
+    git reset --hard <commit-hash>
+    git push --force
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+  **Force pushing** to main branch can cause issues. Use Netlify's built-in rollback when possible.
+</Warning>
+
+## Advanced Configuration
+
+### Custom Domain Setup
+
+<Steps>
+  <Step title="Add Domain in Netlify">
+    Go to Site Settings → Domain Management → Add custom domain
+  </Step>
+  
+  <Step title="Configure DNS">
+    Point your domain's DNS to Netlify:
+    ```
+    A record: @ → 75.2.60.5
+    CNAME: www → your-site.netlify.app
+    ```
+  </Step>
+  
+  <Step title="Enable HTTPS">
+    Netlify automatically provisions SSL certificate via Let's Encrypt
+  </Step>
+</Steps>
+
+### Environment Variables
+
+If you need environment variables:
+
+```toml
+[build.environment]
+  NODE_VERSION = "18"
+  # Add custom variables
+  API_KEY = "your-api-key"
+```
+
+<Note>
+  Currently, no environment variables are needed beyond Node version.
+</Note>
+
+### Build Hooks
+
+Create a webhook to trigger builds:
+
+1. Netlify Dashboard → Site Settings → Build & Deploy → Build Hooks
+2. Create new hook with a name
+3. Copy the webhook URL
+4. Use in external services or scripts:
+
+```bash
+curl -X POST -d '{}' https://api.netlify.com/build_hooks/YOUR_HOOK_ID
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Project Structure" icon="folder-tree" href="./structure">
+    Understand the file organization
+  </Card>
+  
+  <Card title="Styling Guide" icon="palette" href="./styling">
+    Learn about CSS and design system
+  </Card>
+</CardGroup>
+
+## Resources
+
+<Card title="External Documentation" icon="book">
+  - [Netlify Documentation](https://docs.netlify.com/)
+  - [Netlify TOML Reference](https://docs.netlify.com/configure-builds/file-based-configuration/)
+  - [Netlify Redirects Guide](https://docs.netlify.com/routing/redirects/)
+</Card>

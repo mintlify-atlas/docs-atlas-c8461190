@@ -1,0 +1,275 @@
+---
+title: Getting Started
+description: Learn how to set up and run the MilesONerd Website locally
+---
+
+This guide will walk you through setting up the MilesONerd Website on your local machine for development or customization.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- **Web Browser**: Any modern web browser (Chrome, Firefox, Safari, Edge)
+- **Git**: For cloning the repository ([Download Git](https://git-scm.com/downloads))
+- **Text Editor**: VS Code, Sublime Text, or any code editor of your choice
+- **Node.js** (optional): Version 18 or higher, only needed if you want to modify the blog system
+
+<Note>
+The website uses CDN-hosted libraries (Tailwind CSS, Font Awesome, Showdown.js), so you don't need to install any dependencies to run it locally.
+</Note>
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the MilesONerd Website repository to your local machine:
+
+    <CodeGroup>
+    ```bash HTTPS
+    git clone https://github.com/MilesONerd/website.git
+    cd website
+    ```
+
+    ```bash SSH
+    git clone git@github.com:MilesONerd/website.git
+    cd website
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Open the project">
+    Open the project folder in your preferred text editor:
+
+    ```bash VS Code
+    code .
+    ```
+
+    Or simply navigate to the folder in your file explorer.
+  </Step>
+
+  <Step title="View the website locally">
+    You can open the website directly in your browser by opening the `index.html` file:
+
+    - **Option 1**: Double-click `index.html` in your file explorer
+    - **Option 2**: Right-click `index.html` and select "Open with" > Your browser
+    - **Option 3**: Use a local development server (recommended for testing)
+
+    <Tip>
+    For the best development experience, use a local server. If you have Python installed:
+
+    ```bash Python 3
+    python -m http.server 8000
+    ```
+
+    Then visit `http://localhost:8000` in your browser.
+    </Tip>
+  </Step>
+</Steps>
+
+## Project Structure
+
+Here's an overview of the key files and directories in the project:
+
+```plaintext
+website/
+├── index.html          # Homepage with hero section and terminal animation
+├── about.html          # About page with professional background
+├── contact.html        # Contact page with Formspree integration
+├── netlify.toml        # Netlify deployment configuration
+├── LICENSE             # Apache License 2.0
+├── assets/
+│   └── style/
+│       └── styles.css  # Custom CSS styles
+├── blog/
+│   ├── index.html      # Blog listing and post viewer
+│   ├── posts/          # Markdown blog posts
+│   ├── scripts/        # JavaScript for blog functionality
+│   └── update-posts.sh # Script to generate post list
+└── dist/               # Distribution files
+```
+
+<Accordion title="Key Technologies Used">
+- **HTML5**: Semantic markup for all pages
+- **Tailwind CSS 3.4.16**: Utility-first CSS framework (loaded via CDN)
+- **JavaScript**: Vanilla JS for terminal animation and blog system
+- **Font Awesome 6.4.0**: Icon library for social links and UI elements
+- **Showdown.js**: Markdown to HTML converter for blog posts
+- **Formspree**: Contact form backend service
+</Accordion>
+
+## Running the Site Locally
+
+### Basic Setup
+
+The simplest way to run the site:
+
+1. Open `index.html` directly in your browser
+2. Navigate to other pages using the navigation menu
+
+### Using a Local Server (Recommended)
+
+For a better development experience with proper URL routing:
+
+<CodeGroup>
+```bash Python
+# Python 3
+python -m http.server 8000
+
+# Python 2 (if still using)
+python -m SimpleHTTPServer 8000
+```
+
+```bash Node.js
+# Using npx (no installation needed)
+npx http-server -p 8000
+
+# Or install globally
+npm install -g http-server
+http-server -p 8000
+```
+
+```bash PHP
+php -S localhost:8000
+```
+</CodeGroup>
+
+Then visit `http://localhost:8000` in your browser.
+
+<Note>
+When using a local server, the site will work just like it does on Netlify, with proper routing and asset loading.
+</Note>
+
+## Understanding Key Features
+
+### Homepage Terminal Animation
+
+The homepage (`index.html:93-103`) features a terminal animation effect:
+
+```html
+<div class="terminal w-full max-w-md h-64 p-6 shadow-2xl">
+    <div class="terminal-dot red"></div>
+    <div class="terminal-dot yellow"></div>
+    <div class="terminal-dot green"></div>
+    <div class="mt-10">
+        <div class="typewriter text-lg mb-4">> Hello World...</div>
+        <div class="typewriter text-lg mb-4 delay-1000">> Downloading resources...</div>
+        <div class="typewriter text-lg mb-4 delay-2000">> Running.</div>
+        <div class="text-xl font-bold text-green-400 mt-6">Welcome to my new website.</div>
+    </div>
+</div>
+```
+
+The animation is powered by CSS classes defined in `/assets/style/styles.css`.
+
+### Blog System
+
+The blog system (`blog/index.html`) dynamically loads Markdown posts from the `blog/posts/` directory:
+
+- Blog posts are written in Markdown format
+- JavaScript converts Markdown to HTML using Showdown.js
+- Posts are listed dynamically on the blog page
+- The `update-posts.sh` script generates a JSON list of posts during deployment
+
+### Contact Form
+
+The contact page (`contact.html:78-96`) uses Formspree for form handling:
+
+```html
+<form action="https://formspree.io/f/xpwdleyr" method="POST">
+    <input type="email" name="email" placeholder="Your best e-mail" />
+    <textarea name="message" placeholder="Your message"></textarea>
+    <button type="submit">Submit</button>
+</form>
+```
+
+<Tip>
+If you fork this project, you'll need to create your own Formspree account and update the form action URL to receive contact form submissions.
+</Tip>
+
+## Deployment
+
+The site is configured for deployment on Netlify. The `netlify.toml` file contains the deployment configuration:
+
+```toml
+[build]
+  publish = "."
+  command = "chmod +x blog/update-posts.sh && ./blog/update-posts.sh"
+
+[build.environment]
+  NODE_VERSION = "18"
+```
+
+To deploy your own version:
+
+<Steps>
+  <Step title="Create a Netlify account">
+    Sign up for a free account at [netlify.com](https://netlify.com)
+  </Step>
+
+  <Step title="Connect your repository">
+    Link your GitHub repository to Netlify
+  </Step>
+
+  <Step title="Configure build settings">
+    Netlify will automatically detect the `netlify.toml` configuration
+  </Step>
+
+  <Step title="Deploy">
+    Click "Deploy site" and Netlify will build and publish your site
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customize Content" icon="pen-to-square">
+    Learn how to modify the content, colors, and branding to make the site your own
+  </Card>
+
+  <Card title="Add Blog Posts" icon="newspaper">
+    Discover how to write and publish new blog posts in Markdown format
+  </Card>
+
+  <Card title="Configure Contact Form" icon="envelope">
+    Set up your own Formspree account to receive contact form submissions
+  </Card>
+
+  <Card title="Deploy to Production" icon="rocket">
+    Deploy your customized site to Netlify or another hosting platform
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<Accordion title="Styles not loading properly">
+If styles aren't loading when opening `index.html` directly:
+
+- Make sure you have an internet connection (Tailwind CSS and Font Awesome load from CDN)
+- Try using a local development server instead of opening the file directly
+- Check your browser's console for any CORS or loading errors
+</Accordion>
+
+<Accordion title="Blog posts not showing">
+If blog posts aren't displaying:
+
+- Ensure the `blog/posts/` directory contains `.md` files
+- Check that the `list-posts.js` script is running correctly
+- Verify that Showdown.js is loading from the CDN
+- Look for JavaScript errors in the browser console
+</Accordion>
+
+<Accordion title="Contact form not working">
+The contact form requires:
+
+- A valid Formspree endpoint URL
+- Internet connection to submit forms
+- If you forked the repo, create your own Formspree account and update the form action URL
+</Accordion>
+
+## Getting Help
+
+If you encounter any issues:
+
+- Check the [GitHub repository](https://github.com/MilesONerd/website) for updates
+- Review the [LICENSE](https://github.com/MilesONerd/website/blob/main/LICENSE) for usage terms
+- Open an issue on GitHub if you find a bug

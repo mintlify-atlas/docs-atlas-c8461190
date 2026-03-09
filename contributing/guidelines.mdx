@@ -1,0 +1,346 @@
+---
+title: 'Contributing Guidelines'
+description: 'Learn how to contribute to the MilesONerd Website project'
+---
+
+## Welcome Contributors
+
+Thank you for your interest in contributing to the MilesONerd Website! This project is a personal portfolio and blog website built with HTML, Tailwind CSS, and JavaScript. We welcome contributions that improve the project while maintaining its quality and vision.
+
+<Note>
+  This project is licensed under the **Apache License 2.0**. By contributing, you agree that your contributions will be licensed under the same terms.
+</Note>
+
+## Getting Started
+
+<Steps>
+  <Step title="Fork the Repository">
+    Fork the [MilesONerd/website](https://github.com/MilesONerd/website) repository on GitHub to your own account.
+  </Step>
+  
+  <Step title="Clone Your Fork">
+    Clone your forked repository to your local machine:
+    ```bash
+    git clone https://github.com/YOUR-USERNAME/website.git
+    cd website
+    ```
+  </Step>
+  
+  <Step title="Create a Branch">
+    Create a new branch for your contribution:
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
+    Use descriptive branch names like `fix/contact-form-validation` or `feature/dark-mode-toggle`.
+  </Step>
+  
+  <Step title="Make Your Changes">
+    Make your changes following the code style guidelines below. Test your changes locally by opening the HTML files in a web browser.
+  </Step>
+  
+  <Step title="Test Locally">
+    Before submitting, test your changes:
+    - Open `index.html` in your browser
+    - Navigate through all pages (Home, About, Blog, Contact)
+    - Test responsiveness on different screen sizes
+    - Check browser console for errors
+    - Verify all links work correctly
+  </Step>
+  
+  <Step title="Commit Your Changes">
+    Commit your changes with a clear, descriptive message:
+    ```bash
+    git add .
+    git commit -m "Add: description of your changes"
+    ```
+  </Step>
+  
+  <Step title="Push to Your Fork">
+    Push your changes to your GitHub fork:
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+  </Step>
+  
+  <Step title="Submit a Pull Request">
+    Open a Pull Request from your fork to the main repository. Provide a clear description of:
+    - What changes you made
+    - Why you made them
+    - Any relevant screenshots (especially for UI changes)
+  </Step>
+</Steps>
+
+## Code Style Guidelines
+
+### HTML Best Practices
+
+This project follows semantic HTML and accessibility standards:
+
+```html
+<!-- ✅ Good: Semantic HTML with proper attributes -->
+<header class="fixed w-full z-50 bg-gray-900 bg-opacity-90 backdrop-blur-sm">
+  <nav class="hidden md:flex space-x-8">
+    <a href="/blog" class="text-gray-300 hover:text-blue-400 transition">Blog</a>
+  </nav>
+</header>
+
+<!-- ❌ Avoid: Non-semantic markup -->
+<div class="header">
+  <div class="nav">
+    <div class="link">Blog</div>
+  </div>
+</div>
+```
+
+**Key HTML conventions:**
+- Always include `lang="en-US"` on the `<html>` tag
+- Use semantic tags: `<header>`, `<nav>`, `<section>`, `<footer>`, `<article>`
+- Include proper meta tags for SEO and social sharing (see `index.html:3-27`)
+- Add `alt` attributes to all images
+- Use `loading="lazy"` for images below the fold
+- Include `width` and `height` attributes on images for layout stability
+
+### Tailwind CSS Conventions
+
+The project uses Tailwind CSS via CDN (`https://cdn.tailwindcss.com/3.4.16`):
+
+```html
+<!-- ✅ Good: Consistent Tailwind utility classes -->
+<button class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-lg">
+  Submit
+</button>
+
+<!-- ✅ Good: Responsive design with breakpoints -->
+<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+  <!-- Content -->
+</div>
+```
+
+**Tailwind best practices:**
+- Use Tailwind utilities first before writing custom CSS
+- Follow mobile-first responsive design (`sm:`, `md:`, `lg:` breakpoints)
+- Maintain consistent color scheme: `gray-900` backgrounds, `blue-600/700` accents
+- Use `transition` class for smooth hover effects
+- Group related utilities logically (layout → spacing → colors → effects)
+
+### Custom CSS
+
+Custom styles are defined in `/assets/style/styles.css`. Follow these conventions:
+
+```css
+/* ✅ Good: Descriptive class names with clear purpose */
+.hero-gradient {
+    background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+}
+
+.glow {
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.7);
+}
+
+/* ✅ Good: Smooth animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+```
+
+**Custom CSS guidelines:**
+- Use kebab-case for class names (`.hero-gradient`, not `.heroGradient`)
+- Define animations with `@keyframes` for reusability
+- Use CSS variables for consistent theming when possible
+- Keep animations smooth (2s duration is standard, see `styles.css:14-18`)
+
+### JavaScript Style
+
+The project uses vanilla JavaScript with modern ES6+ syntax:
+
+```javascript
+// ✅ Good: Async/await for fetch requests
+async function fetchPostList() {
+    try {
+        const response = await fetch('/blog/posts.json');
+        if (!response.ok) throw new Error('Error loading posts list');
+        const posts = await response.json();
+        // Process posts...
+    } catch (error) {
+        console.error('Error loading posts:', error);
+    }
+}
+
+// ✅ Good: Event delegation and DOM content loaded
+document.addEventListener('DOMContentLoaded', fetchPostList);
+```
+
+**JavaScript conventions:**
+- Use `const` and `let`, never `var`
+- Use arrow functions for callbacks: `posts.forEach((post, index) => {...})`
+- Always handle errors with try/catch blocks
+- Use meaningful variable names: `postGrid`, `contentDiv`, not `x`, `div1`
+- Wait for DOM ready before manipulating elements
+
+## Commit Message Guidelines
+
+Follow this format for clear commit history:
+
+```bash
+# Format: <Type>: <Description>
+
+# Types:
+Add: New feature or functionality
+Fix: Bug fix
+Update: Improvement to existing feature
+Refactor: Code restructuring without changing functionality
+Docs: Documentation changes
+Style: Code formatting, no functional changes
+
+# Examples:
+git commit -m "Add: contact form validation"
+git commit -m "Fix: mobile menu not closing on link click"
+git commit -m "Update: improve hero section accessibility"
+git commit -m "Refactor: simplify blog post loading logic"
+```
+
+<Warning>
+  Keep commit messages concise but descriptive. Avoid vague messages like "fix bug" or "update code".
+</Warning>
+
+## Pull Request Process
+
+When submitting a pull request:
+
+1. **Title**: Use the same format as commit messages
+   - Example: "Add: Newsletter subscription form"
+
+2. **Description**: Include:
+   - Summary of changes
+   - Motivation/problem being solved
+   - Screenshots for UI changes
+   - Testing steps you followed
+
+3. **Checklist**:
+   ```markdown
+   - [ ] Code follows the style guidelines
+   - [ ] Tested on multiple browsers (Chrome, Firefox, Safari)
+   - [ ] Tested responsive design on mobile/tablet/desktop
+   - [ ] No console errors or warnings
+   - [ ] All links and images work correctly
+   - [ ] Commit messages follow the guidelines
+   ```
+
+4. **Review**: Be responsive to feedback and make requested changes promptly
+
+5. **Merge**: Once approved, your PR will be merged by a maintainer
+
+## Testing Your Changes
+
+### Local Testing
+
+Since this is a static site, testing is straightforward:
+
+<Steps>
+  <Step title="Open in Browser">
+    Open the HTML files directly in your browser:
+    - `source/index.html` - Home page
+    - `source/about.html` - About page  
+    - `source/blog/index.html` - Blog listing
+    - `source/contact.html` - Contact form
+  </Step>
+  
+  <Step title="Test Navigation">
+    Click through all navigation links to ensure they work correctly.
+  </Step>
+  
+  <Step title="Test Responsiveness">
+    Use browser DevTools to test different screen sizes:
+    - Mobile: 375px, 428px
+    - Tablet: 768px, 1024px
+    - Desktop: 1280px, 1920px
+  </Step>
+  
+  <Step title="Check Console">
+    Open browser console (F12) and verify there are no JavaScript errors.
+  </Step>
+  
+  <Step title="Test Forms">
+    If you modified the contact form (`contact.html:78-96`), test form submission to the Formspree endpoint.
+  </Step>
+</Steps>
+
+### Browser Compatibility
+
+Test your changes in:
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+<Tip>
+  Use BrowserStack or similar tools for cross-browser testing if you don't have access to all browsers.
+</Tip>
+
+## Reporting Issues
+
+Found a bug or have a suggestion? Please open an issue on GitHub:
+
+### Bug Reports
+
+Include:
+- **Description**: Clear description of the bug
+- **Steps to reproduce**: How to recreate the issue
+- **Expected behavior**: What should happen
+- **Actual behavior**: What actually happens
+- **Screenshots**: If applicable
+- **Browser/OS**: Your browser and operating system
+- **Console errors**: Any errors from browser console
+
+### Feature Requests
+
+Include:
+- **Description**: What feature you'd like to see
+- **Use case**: Why this feature would be valuable
+- **Examples**: Links to similar implementations (if applicable)
+
+## License Information
+
+This project is licensed under the **Apache License 2.0**.
+
+<Note>
+  **Key points of the Apache 2.0 License:**
+  - ✅ You can use, modify, and distribute this code
+  - ✅ You can use it for commercial purposes
+  - ✅ You must include the license and copyright notice
+  - ✅ You must state significant changes made to the code
+  - ❌ The license does not provide warranty or liability protection
+</Note>
+
+When contributing:
+- Your contributions will be licensed under Apache 2.0
+- You retain copyright to your contributions
+- You grant others the right to use your contributions under Apache 2.0
+- You must have the legal right to contribute the code
+
+Read the full license: [Apache License 2.0](https://github.com/MilesONerd/website/blob/main/LICENSE)
+
+## Code of Conduct
+
+Be respectful and professional:
+- Be welcoming to newcomers
+- Accept constructive criticism gracefully
+- Focus on what's best for the project
+- Show empathy towards other contributors
+
+## Questions?
+
+If you have questions about contributing:
+- Open a discussion on GitHub
+- Check existing issues and pull requests
+- Review the [documentation](https://github.com/MilesONerd/website)
+
+<Tip>
+  Small contributions are valuable too! Even fixing a typo or improving documentation helps the project.
+</Tip>
+
+## Recognition
+
+All contributors will be recognized in the project. Thank you for helping improve the MilesONerd Website!

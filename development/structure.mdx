@@ -1,0 +1,295 @@
+---
+title: Project Structure
+description: Understanding the directory structure and file organization of the MilesONerd website
+---
+
+The MilesONerd website follows a clean, organized structure built with vanilla HTML, CSS, and JavaScript. This page explains how the project is organized and the purpose of each component.
+
+## Directory Overview
+
+The website uses a flat structure optimized for static hosting on Netlify:
+
+```
+website/
+├── index.html              # Homepage with hero section
+├── about.html              # About page with personal bio
+├── contact.html            # Contact page with form
+├── netlify.toml            # Netlify deployment configuration
+├── LICENSE                 # Project license
+├── assets/
+│   └── style/
+│       └── styles.css      # Custom CSS styles
+├── blog/
+│   ├── index.html          # Blog listing page
+│   ├── update-posts.sh     # Build script for blog
+│   ├── posts.json          # Generated blog index
+│   ├── posts/
+│   │   └── *.md            # Markdown blog posts
+│   └── scripts/
+│       └── list-posts.js   # Blog post loader
+├── dist/
+│   └── _headers            # HTTP headers config
+└── .github/
+    └── workflows/          # GitHub Actions
+```
+
+<Note>
+  This is a static website with no build step required beyond the blog post indexing script.
+</Note>
+
+## Core HTML Pages
+
+The website consists of four main pages that share a common structure:
+
+<Steps>
+  <Step title="Homepage (index.html)">
+    The main landing page featuring:
+    - Hero section with gradient background
+    - Personal introduction and bio
+    - Terminal animation component
+    - Call-to-action buttons
+    - Social media links in footer
+  </Step>
+  
+  <Step title="About Page (about.html)">
+    Personal biography and site history:
+    - Detailed professional background
+    - Site evolution timeline
+    - Skills and interests
+  </Step>
+  
+  <Step title="Contact Page (contact.html)">
+    Contact form integration:
+    - Formspree integration for form handling
+    - Privacy information
+    - Email and message fields
+  </Step>
+  
+  <Step title="Blog (blog/index.html)">
+    Dynamic blog system:
+    - Post grid layout
+    - Markdown rendering with Showdown.js
+    - Dynamic post loading
+    - Date-based organization
+  </Step>
+</Steps>
+
+## Common Page Structure
+
+All HTML pages follow this consistent structure:
+
+```html
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title | Enzo Fuke</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/assets/style/styles.css">
+    
+    <!-- Open Graph & Twitter Meta Tags -->
+    <meta property="og:title" content="..." />
+    <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body class="font-sans antialiased text-gray-100 bg-gray-900">
+    <header><!-- Fixed navigation --></header>
+    <main><!-- Page content --></main>
+    <footer><!-- Social links and site info --></footer>
+</body>
+</html>
+```
+
+<Warning>
+  All pages reference external assets hosted on `milesonerd.github.io` for images and scripts. Make sure these remain accessible.
+</Warning>
+
+## Asset Organization
+
+### Styles Directory
+
+```
+assets/
+└── style/
+    └── styles.css          # Custom CSS (animations, terminal, etc.)
+```
+
+The `styles.css` file contains:
+- Custom animations (pulse, typewriter, glow)
+- Terminal component styles
+- Blog post list styles
+- Responsive social icon sizing
+- Gradient backgrounds
+
+### External Assets
+
+Images and some scripts are hosted externally:
+- **Images**: `https://milesonerd.github.io/assets/image/`
+- **Scripts**: `https://milesonerd.github.io/assets/scripts/functions.js`
+- **Favicons**: Multiple sizes for different devices
+
+## Blog System
+
+The blog uses a simple but effective structure:
+
+<Accordion title="Blog Post Processing">
+  <Steps>
+    <Step title="Write Posts">
+      Blog posts are written in Markdown and stored in `blog/posts/` with date-based filenames:
+      ```
+      blog/posts/05-10-2025.md
+      ```
+    </Step>
+    
+    <Step title="Generate Index">
+      The `update-posts.sh` script scans the posts directory and generates `posts.json`:
+      ```json
+      [
+        {
+          "title": "Post Title",
+          "path": "blog/posts/05-10-2025.md",
+          "date": "2025-05-10"
+        }
+      ]
+      ```
+    </Step>
+    
+    <Step title="Display Posts">
+      The `list-posts.js` script:
+      - Fetches `posts.json`
+      - Creates card elements for each post
+      - Loads and renders Markdown on click
+      - Uses Showdown.js for Markdown to HTML conversion
+    </Step>
+  </Steps>
+</Accordion>
+
+## Configuration Files
+
+### netlify.toml
+
+Deployment configuration for Netlify:
+
+```toml
+[build]
+  publish = "."
+  command = "chmod +x blog/update-posts.sh && ./blog/update-posts.sh"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+### dist/_headers
+
+HTTP headers for security and caching (placed in the `dist/` directory).
+
+## Navigation Structure
+
+The site uses a consistent navigation pattern:
+
+```html
+<nav class="hidden md:flex space-x-8">
+    <a href="/blog">Blog</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+</nav>
+```
+
+<Card title="Key Navigation Features" icon="map">
+  - Fixed header with backdrop blur effect
+  - Responsive mobile menu (hidden on mobile by default)
+  - Logo linking to homepage
+  - External link to alternative site (milesonerd.github.io)
+</Card>
+
+## Footer Structure
+
+The footer is shared across all pages and includes:
+
+1. **Brand Section**: Logo and tagline
+2. **Social Icons**: 16+ social media platforms with responsive sizing
+3. **Website Info**: Repository links, licenses, hosting info
+4. **Resources**: Links to related projects (Neurenix, Closure Next)
+5. **Legal Links**: Terms, Privacy, Cookies, Accessibility
+
+## Key Directories Explained
+
+<AccordionGroup>
+  <Accordion title="/ (Root)">
+    Contains all main HTML pages and configuration files. The root level is the publish directory for Netlify.
+  </Accordion>
+  
+  <Accordion title="assets/">
+    Houses all custom CSS and styles. Currently contains only the `styles.css` file, but organized for future expansion.
+  </Accordion>
+  
+  <Accordion title="blog/">
+    Complete blog system with:
+    - `index.html` - Blog listing page
+    - `posts/` - Markdown blog posts
+    - `scripts/` - JavaScript for post loading
+    - `update-posts.sh` - Build-time indexing script
+    - `posts.json` - Generated index file
+  </Accordion>
+  
+  <Accordion title="dist/">
+    Distribution files like HTTP headers that need to be served alongside the site.
+  </Accordion>
+  
+  <Accordion title=".github/">
+    GitHub Actions workflows for:
+    - Automatic deployment
+    - Weekly builds
+    - Copyright year updates
+  </Accordion>
+</AccordionGroup>
+
+## File Naming Conventions
+
+- **HTML Pages**: Lowercase with hyphens (e.g., `index.html`, `about.html`)
+- **Blog Posts**: Date-prefixed Markdown (e.g., `05-10-2025.md`)
+- **Styles**: Descriptive names (e.g., `styles.css`)
+- **Scripts**: Descriptive names (e.g., `list-posts.js`, `update-posts.sh`)
+
+## Dependencies
+
+The site relies on these CDN-hosted libraries:
+
+```html
+<!-- Tailwind CSS v3.4.16 -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+
+<!-- Font Awesome v6.4.0 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Showdown.js (Blog only) -->
+<script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+```
+
+<Note>
+  No package.json or node_modules required - all dependencies are loaded via CDN.
+</Note>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Styling Guide" icon="palette" href="./styling">
+    Learn about the CSS architecture and Tailwind usage
+  </Card>
+  
+  <Card title="Deployment" icon="rocket" href="./deployment">
+    Understand the build and deployment process
+  </Card>
+</CardGroup>

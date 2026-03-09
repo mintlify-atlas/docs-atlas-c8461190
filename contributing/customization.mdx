@@ -1,0 +1,777 @@
+---
+title: 'Customization Guide'
+description: 'Learn how to customize the MilesONerd Website for your own use'
+---
+
+## Introduction
+
+The MilesONerd Website is built to be easily customizable for your own portfolio or blog. This guide shows you how to adapt the website to your personal brand, including colors, content, and functionality.
+
+<Note>
+  This website is licensed under Apache 2.0, which allows you to use, modify, and distribute the code for personal or commercial purposes. Just remember to include the license notice.
+</Note>
+
+## Quick Start Customization
+
+Here are the most common customizations you'll want to make:
+
+<Accordion title="Personal Information & Branding">
+  
+### Update Site-Wide Information
+
+Replace "Enzo Fuke" and "MilesONerd" throughout the codebase with your own name and brand.
+
+**Files to edit:**
+- `source/index.html`
+- `source/about.html`
+- `source/blog/index.html`
+- `source/contact.html`
+
+**Key locations in each file:**
+
+```html
+<!-- 1. Page Title (in <head>) -->
+<title>Your Name | Your Tagline</title>
+<meta name="author" content="Your Name">
+
+<!-- 2. Header Logo & Name -->
+<span class="ml-3 text-xl font-bold text-white">Your Name</span>
+
+<!-- 3. Footer Branding -->
+<span class="ml-3 text-xl font-bold text-white">Your Name</span>
+<p class="text-gray-400 mb-4">Your tagline here</p>
+
+<!-- 4. Copyright Notice -->
+<p class="text-gray-500 text-sm mb-4 md:mb-0">
+  Copyright © 2025 Your Name. All Rights Reserved.
+</p>
+```
+
+### Update Logo and Favicon
+
+Replace the Phoenix logo with your own brand image:
+
+```html
+<!-- Current logo URL (appears multiple times) -->
+<img src="https://milesonerd.github.io/assets/image/Logo/Phoenix.jpg" 
+     alt="Your Name" 
+     width="50" 
+     height="50" 
+     loading="lazy" 
+     class="w-full h-full rounded-full object-cover" />
+
+<!-- Replace with your logo -->
+<img src="/assets/image/your-logo.jpg" 
+     alt="Your Name" 
+     width="50" 
+     height="50" 
+     loading="lazy" 
+     class="w-full h-full rounded-full object-cover" />
+```
+
+**Favicon updates** (in `<head>` section of all pages):
+
+```html
+<!-- Update these favicon URLs -->
+<link rel="icon" href="/assets/image/favicon/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/image/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/image/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/image/favicon/apple-touch-icon.png">
+```
+
+<Tip>
+  Use a tool like [Favicon Generator](https://realfavicongenerator.net/) to create all favicon sizes from a single image.
+</Tip>
+
+</Accordion>
+
+<Accordion title="Colors & Theme">
+
+### Primary Color Scheme
+
+The site uses a blue accent color (`#2563eb` / `blue-600`) on a dark gray background (`#111827` / `gray-900`). Here's how to change it:
+
+**Option 1: Find and Replace (Quick)**
+
+Replace these Tailwind classes throughout all HTML files:
+
+```bash
+# Blue to Purple example
+bg-blue-600 → bg-purple-600
+bg-blue-700 → bg-purple-700
+bg-blue-900 → bg-purple-900
+text-blue-100 → text-purple-100
+text-blue-300 → text-purple-300
+text-blue-400 → text-purple-400
+hover:text-blue-400 → hover:text-purple-400
+border-blue-500 → border-purple-500
+```
+
+**Option 2: Custom CSS (More Control)**
+
+Add custom CSS to override colors in `assets/style/styles.css`:
+
+```css
+/* Add at the end of styles.css */
+
+/* Custom accent color */
+.bg-blue-600 {
+    background-color: #8b5cf6 !important; /* Purple */
+}
+
+.bg-blue-700 {
+    background-color: #7c3aed !important; /* Darker purple */
+}
+
+.text-blue-400 {
+    color: #a78bfa !important; /* Light purple */
+}
+
+/* Add more overrides as needed */
+```
+
+### Hero Section Gradient
+
+Customize the hero gradient in `assets/style/styles.css:5-7`:
+
+```css
+/* Current gradient: Blue theme */
+.hero-gradient {
+    background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+}
+
+/* Example: Purple theme */
+.hero-gradient {
+    background: linear-gradient(135deg, #1a0033 0%, #6b21a8 100%);
+}
+
+/* Example: Green theme */
+.hero-gradient {
+    background: linear-gradient(135deg, #022c22 0%, #059669 100%);
+}
+
+/* Example: Red/Orange theme */
+.hero-gradient {
+    background: linear-gradient(135deg, #3c0000 0%, #dc2626 100%);
+}
+```
+
+### Text Glow Effect
+
+Modify the glow effect color in `assets/style/styles.css:8-10`:
+
+```css
+/* Current: Blue glow */
+.glow {
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.7);
+}
+
+/* Example: Purple glow */
+.glow {
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+}
+
+/* Example: Green glow */
+.glow {
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+}
+```
+
+<Tip>
+  Use a color picker to convert your desired colors to RGB values for the `rgba()` function.
+</Tip>
+
+</Accordion>
+
+<Accordion title="Hero Section Content">
+
+### Update Hero Text
+
+Edit `source/index.html:69-106` to customize the hero section:
+
+```html
+<!-- Hero badge/label -->
+<span class="inline-block px-3 py-1 text-sm font-semibold text-blue-100 
+             bg-blue-900 bg-opacity-50 rounded-full mb-4">
+  Your Name or Role
+</span>
+
+<!-- Main headline -->
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white 
+           leading-tight mb-6 glow">
+  Your Compelling Headline Here
+</h1>
+
+<!-- Description paragraph -->
+<p class="text-xl text-blue-100 opacity-90 mb-8">
+  Your professional bio or description. Keep it concise but informative.
+  Highlight your key skills, interests, and what makes you unique.
+</p>
+```
+
+### Update Call-to-Action Buttons
+
+Customize the hero CTA buttons (`index.html:75-78`):
+
+```html
+<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+  <!-- Primary CTA -->
+  <a href="https://your-link.com" 
+     class="px-8 py-4 bg-white text-blue-900 font-bold rounded-lg 
+            hover:bg-gray-100 transition shadow-lg text-center">
+    Your Primary CTA
+  </a>
+  
+  <!-- Secondary CTA -->
+  <a href="https://your-link.com" 
+     class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg 
+            hover:bg-white hover:bg-opacity-10 transition text-center">
+    Your Secondary CTA
+  </a>
+</div>
+```
+
+### Customize Terminal Animation
+
+Modify the terminal welcome message (`index.html:93-103`):
+
+```html
+<div class="terminal w-full max-w-md h-64 p-6 shadow-2xl">
+  <div class="terminal-dot red"></div>
+  <div class="terminal-dot yellow"></div>
+  <div class="terminal-dot green"></div>
+  <div class="mt-10">
+    <div class="typewriter text-lg mb-4">> Your custom message...</div>
+    <div class="typewriter text-lg mb-4 delay-1000">> Another line...</div>
+    <div class="typewriter text-lg mb-4 delay-2000">> Processing...</div>
+    <div class="text-xl font-bold text-green-400 mt-6">
+      Your final welcome message.
+    </div>
+  </div>
+</div>
+```
+
+</Accordion>
+
+<Accordion title="Social Links">
+
+### Update Social Media Links
+
+The footer contains social media icons. Edit the footer section in all pages (around line 111-136):
+
+```html
+<div class="social-icons-container">
+  <!-- Replace URLs with your own profiles -->
+  <a href="https://github.com/yourusername" class="text-white hover:text-blue-400">
+    <img src="https://cdn.simpleicons.org/github/ffffff" 
+         alt="GitHub logo" 
+         class="social-icon" 
+         loading="lazy">
+  </a>
+  
+  <a href="https://linkedin.com/in/yourusername" class="text-white hover:text-blue-400">
+    <img src="https://cdn.simpleicons.org/linkedin/ffffff" 
+         alt="LinkedIn logo" 
+         class="social-icon" 
+         loading="lazy">
+  </a>
+  
+  <a href="https://twitter.com/yourusername" class="text-white hover:text-blue-400">
+    <img src="https://cdn.simpleicons.org/twitter/ffffff" 
+         alt="Twitter logo" 
+         class="social-icon" 
+         loading="lazy">
+  </a>
+  
+  <!-- Add or remove platforms as needed -->
+</div>
+```
+
+### Add/Remove Social Platforms
+
+The project uses [Simple Icons CDN](https://simpleicons.org/) for social icons. To add a new platform:
+
+```html
+<!-- Find your platform at https://simpleicons.org/ -->
+<!-- Example: Discord -->
+<a href="https://discord.gg/yourinvite" class="text-white hover:text-blue-400">
+  <img src="https://cdn.simpleicons.org/discord/ffffff" 
+       alt="Discord logo" 
+       class="social-icon" 
+       loading="lazy">
+</a>
+```
+
+To remove a platform, simply delete its entire `<a>` tag block.
+
+<Tip>
+  The icons automatically resize responsively thanks to the `.social-icon` CSS class defined in `styles.css:90-141`.
+</Tip>
+
+</Accordion>
+
+<Accordion title="Contact Form Settings">
+
+### Update Formspree Endpoint
+
+The contact form uses [Formspree](https://formspree.io/) for form handling. To use your own:
+
+1. Create a free account at [formspree.io](https://formspree.io/)
+2. Create a new form and get your endpoint URL
+3. Update `source/contact.html:78`:
+
+```html
+<!-- Current Formspree endpoint -->
+<form action="https://formspree.io/f/xpwdleyr" method="POST" class="flex flex-col sm:flex-row gap-4">
+
+<!-- Replace with your endpoint -->
+<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="flex flex-col sm:flex-row gap-4">
+```
+
+### Customize Form Fields
+
+Add or modify form fields (`contact.html:79-96`):
+
+```html
+<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" 
+      class="flex flex-col sm:flex-row gap-4">
+  
+  <!-- Email field -->
+  <input 
+    type="email" 
+    name="email" 
+    placeholder="Your best e-mail" 
+    required
+    class="flex-grow px-6 py-4 rounded-lg bg-gray-800 text-white 
+           border border-gray-700 focus:border-blue-500 focus:outline-none" 
+  >
+  
+  <!-- Add name field -->
+  <input 
+    type="text" 
+    name="name" 
+    placeholder="Your name" 
+    required
+    class="flex-grow px-6 py-4 rounded-lg bg-gray-800 text-white 
+           border border-gray-700 focus:border-blue-500 focus:outline-none" 
+  >
+  
+  <!-- Message textarea -->
+  <textarea 
+    name="message" 
+    placeholder="Your message" 
+    required
+    rows="4"
+    class="flex-grow px-6 py-4 rounded-lg bg-gray-800 text-white 
+           border border-gray-700 focus:border-blue-500 focus:outline-none" 
+  ></textarea>
+  
+  <!-- Submit button -->
+  <button 
+    type="submit" 
+    class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg 
+           hover:bg-blue-700 transition shadow-lg"
+  >
+    Submit
+  </button>
+</form>
+```
+
+### Update Contact Page Text
+
+Customize the contact page messaging (`contact.html:72-76`):
+
+```html
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Contact</h2>
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+  Your custom contact page message here.
+</p>
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+  Additional information about how you handle contact requests.
+</p>
+```
+
+</Accordion>
+
+<Accordion title="Blog Customization">
+
+### Update Blog Post List
+
+The blog loads posts from `blog/posts.json`. Create or update this file:
+
+```json
+[
+  {
+    "title": "Your First Blog Post",
+    "date": "2025-03-09",
+    "path": "blog/posts/first-post.md"
+  },
+  {
+    "title": "Another Great Article",
+    "date": "2025-03-10",
+    "path": "blog/posts/second-post.md"
+  }
+]
+```
+
+### Create Blog Post Files
+
+Create markdown files in `source/blog/posts/`:
+
+```markdown
+# Your Blog Post Title
+
+**Published:** March 9, 2025
+
+## Introduction
+
+Your introduction paragraph here.
+
+## Main Content
+
+Your main content with:
+
+- Bullet points
+- **Bold text**
+- *Italic text*
+- [Links](https://example.com)
+
+## Code Examples
+
+\`\`\`javascript
+const example = "Your code here";
+console.log(example);
+\`\`\`
+
+## Conclusion
+
+Your conclusion paragraph.
+```
+
+### Customize Blog Icons
+
+The blog uses Font Awesome icons. Edit the icon array in `blog/scripts/list-posts.js:5-16`:
+
+```javascript
+const icons = [
+    'fa-code',        // Programming
+    'fa-brain',       // AI/ML
+    'fa-server',      // Backend
+    'fa-mobile-alt',  // Mobile
+    'fa-shield-alt',  // Security
+    'fa-rocket',      // Add your own
+    'fa-heart',       // Add your own
+    // Add more Font Awesome icon classes
+];
+```
+
+<Tip>
+  Browse [Font Awesome icons](https://fontawesome.com/icons) to find icon classes that match your blog topics.
+</Tip>
+
+### Style Blog Cards
+
+Modify blog card appearance in `blog/scripts/list-posts.js:38-48`:
+
+```javascript
+card.innerHTML = `
+    <div class="w-14 h-14 bg-purple-900 rounded-lg flex items-center 
+                justify-center text-purple-300 mb-6">
+        <i class="fas ${iconClass} text-2xl"></i>
+    </div>
+    <h3 class="text-xl font-bold text-white mb-3">${post.title}</h3>
+    <p class="text-gray-400 mb-4">Your custom description</p>
+    <div class="flex items-center text-purple-400 text-sm">
+        <span>Published on ${new Date(post.date).toLocaleDateString('en-US')}</span>
+    </div>
+`;
+```
+
+</Accordion>
+
+<Accordion title="About Page Customization">
+
+### Update Bio Section
+
+Edit your personal bio in `source/about.html:73-76`:
+
+```html
+<div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+  <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-400 
+               bg-blue-900 bg-opacity-50 rounded-full mb-4">
+    Who am I?
+  </span>
+  
+  <p class="text-lg text-gray-300 mb-6">
+    Your first bio paragraph. Tell your story, share your background,
+    and highlight your key skills and expertise.
+  </p>
+  
+  <p class="text-lg text-gray-300 mb-8">
+    Your second bio paragraph. Share your interests, passions,
+    and what drives you professionally.
+  </p>
+  
+  <p class="text-lg text-gray-300 mb-8">
+    Your third bio paragraph. Discuss your values, goals,
+    and what makes you unique.
+  </p>
+</div>
+```
+
+### Update Timeline
+
+Customize your journey timeline (`about.html:80-108`):
+
+```html
+<div class="bg-gray-800 rounded-xl p-8 shadow-2xl">
+  <h3 class="text-xl font-bold text-white mb-6">My Journey</h3>
+  <div class="space-y-6">
+    
+    <!-- Timeline item 1 -->
+    <div class="flex">
+      <div class="flex-shrink-0 mr-4">
+        <div class="flex items-center justify-center w-12 h-12 
+                    rounded-full bg-blue-900 text-blue-300 font-bold text-xl">
+          1
+        </div>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold text-white mb-1">
+          2020 - Started My Journey
+        </h4>
+        <p class="text-gray-400">
+          Description of this milestone in your journey
+        </p>
+      </div>
+    </div>
+    
+    <!-- Add more timeline items -->
+    
+  </div>
+</div>
+```
+
+</Accordion>
+
+<Accordion title="Navigation & Footer">
+
+### Update Navigation Links
+
+Modify the header navigation (present in all pages around line 53-57):
+
+```html
+<nav class="hidden md:flex space-x-8">
+  <a href="/" class="text-gray-300 hover:text-blue-400 transition">Home</a>
+  <a href="/blog" class="text-gray-300 hover:text-blue-400 transition">Blog</a>
+  <a href="/about" class="text-gray-300 hover:text-blue-400 transition">About</a>
+  <a href="/projects" class="text-gray-300 hover:text-blue-400 transition">Projects</a>
+  <a href="/contact" class="text-gray-300 hover:text-blue-400 transition">Contact</a>
+</nav>
+```
+
+### Update Footer Links
+
+Customize footer link sections (around line 138-161):
+
+```html
+<div>
+  <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+  <ul class="space-y-2">
+    <li>
+      <a href="/your-link" class="text-gray-400 hover:text-blue-400 transition">
+        Your Link Text
+      </a>
+    </li>
+    <!-- Add more links -->
+  </ul>
+</div>
+```
+
+### Update External Links
+
+Replace the "Another site by MilesONerd" button (line 59):
+
+```html
+<a href="https://your-other-site.com" 
+   class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg 
+          hover:bg-blue-700 transition shadow-md pulse">
+  Your Custom CTA
+</a>
+```
+
+</Accordion>
+
+## Advanced Customization
+
+### Tailwind Configuration
+
+Currently, the site uses Tailwind via CDN. For advanced customization, you can:
+
+1. **Install Tailwind locally:**
+
+```bash
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
+2. **Create `tailwind.config.js`:**
+
+```javascript
+module.exports = {
+  content: ["./source/**/*.{html,js}"],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#8b5cf6',    // Custom primary color
+        secondary: '#ec4899',  // Custom secondary color
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+3. **Build your CSS:**
+
+```bash
+npx tailwindcss -i ./source/assets/style/input.css -o ./source/assets/style/output.css --watch
+```
+
+4. **Update HTML to use your compiled CSS instead of CDN**
+
+<Warning>
+  Switching from CDN to local Tailwind requires build steps. Only do this if you need custom theme configuration beyond what utility classes provide.
+</Warning>
+
+### Custom Animations
+
+Add custom animations to `assets/style/styles.css`:
+
+```css
+/* Fade in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+}
+```
+
+Then apply these classes in your HTML:
+
+```html
+<div class="fade-in">This content fades in</div>
+<div class="slide-in-left">This content slides in from left</div>
+```
+
+### Meta Tags & SEO
+
+Customize SEO meta tags in the `<head>` of each page:
+
+```html
+<!-- Basic SEO -->
+<title>Your Page Title | Your Site Name</title>
+<meta name="description" content="Your page description for search engines">
+<meta name="author" content="Your Name">
+<meta name="keywords" content="your, keywords, here">
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+<meta property="og:url" content="https://your-site.com" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Your Site Name" />
+<meta property="og:title" content="Your Page Title" />
+<meta property="og:description" content="Your page description" />
+<meta property="og:image" content="https://your-site.com/og-image.jpg" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Your Page Title" />
+<meta name="twitter:description" content="Your page description" />
+<meta name="twitter:image" content="https://your-site.com/twitter-image.jpg" />
+```
+
+<Tip>
+  Use tools like [Metatags.io](https://metatags.io/) to preview how your pages will look when shared on social media.
+</Tip>
+
+## Deployment
+
+After customizing, deploy your site:
+
+### Netlify (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to [Netlify](https://netlify.com)
+3. Build settings:
+   - Build command: (leave empty for static site)
+   - Publish directory: `source`
+4. Deploy!
+
+### GitHub Pages
+
+1. Push code to a GitHub repository
+2. Go to Settings → Pages
+3. Select branch and `/source` folder
+4. Save and wait for deployment
+
+### Other Platforms
+
+- **Vercel**: Import GitHub repo, set publish directory to `source`
+- **Cloudflare Pages**: Connect repo, publish `source` directory
+- **Traditional Hosting**: Upload `source/` folder contents to your web host
+
+## Testing Your Customizations
+
+Before deploying:
+
+<Steps>
+  <Step title="Visual Check">
+    Open all pages in your browser and verify your changes look correct.
+  </Step>
+  
+  <Step title="Responsive Test">
+    Test on mobile, tablet, and desktop sizes using browser DevTools.
+  </Step>
+  
+  <Step title="Link Check">
+    Click all navigation links and ensure they work correctly.
+  </Step>
+  
+  <Step title="Form Test">
+    Submit a test through the contact form to verify it works.
+  </Step>
+  
+  <Step title="Performance Check">
+    Use [PageSpeed Insights](https://pagespeed.web.dev/) to check performance.
+  </Step>
+</Steps>
+
+## Need Help?
+
+If you run into issues while customizing:
+
+- Check the [Contributing Guidelines](/contributing/guidelines) for code style help
+- Open an issue on [GitHub](https://github.com/MilesONerd/website/issues)
+- Review the [development documentation](/development)
+
+<Tip>
+  Start with small customizations and test frequently. It's easier to debug issues when you make changes incrementally.
+</Tip>
+
+Happy customizing! Make this website truly yours.

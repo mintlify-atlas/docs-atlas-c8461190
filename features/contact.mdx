@@ -1,0 +1,381 @@
+---
+title: Contact Page
+description: Contact form with Formspree integration and privacy information
+---
+
+## Overview
+
+The Contact page provides a way for visitors to reach out via an integrated contact form. It includes detailed privacy information about the email handling process and uses Formspree for form submission.
+
+<Info>
+  The contact form uses Formspree (a third-party form handling service) to process submissions without requiring backend code.
+</Info>
+
+## Page Structure
+
+### CTA (Call-to-Action) Section
+
+The main content is presented in a gradient hero section:
+
+```html
+<section class="py-20 bg-gradient-to-r from-blue-900 to-gray-900 px-6">
+    <div class="container mx-auto text-center">
+        <!-- Content -->
+    </div>
+</section>
+```
+
+<Accordion title="Gradient Background">
+**CSS Classes**: `bg-gradient-to-r from-blue-900 to-gray-900`
+
+Creates a horizontal gradient from:
+- Left: Deep blue (`from-blue-900`)
+- Right: Dark gray (`to-gray-900`)
+
+This creates a subtle, professional background that differentiates the contact section from other pages.
+</Accordion>
+
+## Content Sections
+
+### Heading and Introduction
+
+```html
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Contact</h2>
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+    Feel free to contact me whenever you need, I'll be waiting!
+</p>
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+    For inquiries or collaborations, feel free to connect via the form bellow or links in the footer.
+</p>
+```
+
+<CardGroup cols={2}>
+  <Card title="Heading" icon="heading">
+    - Responsive size (3xl/4xl)
+    - Bold white text
+    - Simple and direct
+  </Card>
+  <Card title="Introduction" icon="message">
+    - Welcoming tone
+    - Multiple contact options mentioned
+    - Light blue text color
+  </Card>
+</CardGroup>
+
+### Privacy Information
+
+The page includes detailed privacy disclosures about email handling:
+
+```html
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+    Please note: When you submit a message using the form below, I will reply using a 
+    temporary Guerrilla Mail address to protect my real email. After my response, the 
+    email will be automatically deleted within 1 hour, and only you will have the message.
+</p>
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+    I do not recommend using a temporary email in the email field, as I cannot guarantee 
+    that I will respond within the time frame provided by the temporary email.
+</p>
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+    I respect your privacy. I will never share your email.
+</p>
+```
+
+<Accordion title="Privacy Notices Breakdown">
+**Notice 1: Response Method**
+- Uses Guerrilla Mail for replies
+- Protects owner's real email address
+- Temporary email auto-deleted in 1 hour
+- User retains their copy
+
+**Notice 2: Email Recommendation**
+- Warns against temporary email addresses
+- Explains response time constraints
+- Helps ensure communication success
+
+**Notice 3: Privacy Commitment**
+- Clear privacy statement
+- Builds trust with visitors
+- No email sharing policy
+</Accordion>
+
+<Tip>
+  Transparent privacy information builds trust and sets clear expectations for communication.
+</Tip>
+
+## Contact Form
+
+The form is integrated with Formspree for server-side processing:
+
+```html
+<div class="max-w-2xl mx-auto">
+    <form action="https://formspree.io/f/xpwdleyr" method="POST" class="flex flex-col sm:flex-row gap-4">
+        <input 
+            type="email" 
+            name="email" 
+            placeholder="Your best e-mail" 
+            class="flex-grow px-6 py-4 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:outline-none" 
+        >
+        <textarea 
+            name="message" 
+            placeholder="Your message" 
+            class="flex-grow px-6 py-4 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:outline-none" 
+        ></textarea>
+        <button 
+            type="submit" 
+            class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-lg"
+        >
+            Submit
+        </button>
+    </form>
+</div>
+```
+
+### Form Elements
+
+<CardGroup cols={3}>
+  <Card title="Email Input" icon="envelope">
+    - Type: `email` (validates email format)
+    - Name: `email`
+    - Placeholder: "Your best e-mail"
+    - Dark background with border
+  </Card>
+  <Card title="Message Textarea" icon="message-square">
+    - Name: `message`
+    - Placeholder: "Your message"
+    - Expandable text area
+    - Matches email input styling
+  </Card>
+  <Card title="Submit Button" icon="send">
+    - Type: `submit`
+    - Blue background
+    - Hover effect (darker blue)
+    - Bold text with shadow
+  </Card>
+</CardGroup>
+
+### Form Styling Details
+
+<Tabs>
+  <Tab title="Layout">
+    ```html
+    class="flex flex-col sm:flex-row gap-4"
+    ```
+    - **Mobile**: Vertical stack (`flex-col`)
+    - **Desktop**: Horizontal row (`sm:flex-row`)
+    - **Spacing**: 4-unit gap between elements
+  </Tab>
+  <Tab title="Input Fields">
+    ```html
+    class="flex-grow px-6 py-4 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:outline-none"
+    ```
+    - **Sizing**: Flexible growth, generous padding
+    - **Colors**: Dark gray background, white text
+    - **Border**: Gray by default, blue on focus
+    - **Focus**: Blue border, no browser outline
+  </Tab>
+  <Tab title="Submit Button">
+    ```html
+    class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-lg"
+    ```
+    - **Padding**: Extra horizontal (px-8)
+    - **Color**: Blue background, white text
+    - **Hover**: Darker blue with smooth transition
+    - **Shadow**: Large shadow for depth
+  </Tab>
+</Tabs>
+
+## Formspree Integration
+
+The form uses Formspree for backend processing:
+
+```html
+<form action="https://formspree.io/f/xpwdleyr" method="POST">
+```
+
+<Accordion title="How Formspree Works">
+1. **Form Submission**: User fills out and submits form
+2. **POST Request**: Browser sends data to Formspree endpoint
+3. **Email Delivery**: Formspree forwards submission to configured email
+4. **Response**: Formspree redirects user to thank you page or shows confirmation
+
+**Benefits**:
+- No backend code required
+- SPAM protection built-in
+- Easy setup with form endpoint
+- Free tier available
+- HTTPS encrypted submissions
+</Accordion>
+
+<Note>
+  The Formspree endpoint `xpwdleyr` is specific to this form. Each form gets a unique identifier.
+</Note>
+
+## Design Elements
+
+### Color Scheme
+
+<CardGroup cols={3}>
+  <Card title="Background">
+    - Gradient: `blue-900` to `gray-900`
+    - Form inputs: `bg-gray-800`
+    - Button: `bg-blue-600`
+  </Card>
+  <Card title="Text">
+    - Headings: `text-white`
+    - Body: `text-blue-300`
+    - Input text: `text-white`
+  </Card>
+  <Card title="Borders & Accents">
+    - Default: `border-gray-700`
+    - Focus: `border-blue-500`
+    - Button hover: `bg-blue-700`
+  </Card>
+</CardGroup>
+
+### Typography
+
+```html
+<!-- Main heading -->
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Contact</h2>
+
+<!-- Body paragraphs -->
+<p class="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">...</p>
+
+<!-- Button text -->
+<button class="... font-bold ...">Submit</button>
+```
+
+### Spacing and Layout
+
+<Accordion title="Content Centering">
+```html
+<div class="container mx-auto text-center">
+```
+- Centers content horizontally
+- All text centered within container
+- Consistent margins on left/right
+</Accordion>
+
+<Accordion title="Max Width Constraints">
+```html
+<!-- Paragraphs -->
+<p class="... max-w-3xl mx-auto">...</p>
+
+<!-- Form -->
+<div class="max-w-2xl mx-auto">
+```
+- Paragraphs: 3xl max width for readability
+- Form: 2xl max width for proper field sizing
+- Both centered with `mx-auto`
+</Accordion>
+
+<Accordion title="Vertical Spacing">
+```html
+<h2 class="... mb-6">Contact</h2>
+<p class="... mb-8 ...">...</p>
+<div class="... gap-4">...</div>
+```
+- Heading: 6 units bottom margin
+- Paragraphs: 8 units bottom margin
+- Form elements: 4 units gap
+</Accordion>
+
+## Accessibility Features
+
+<CardGroup cols={2}>
+  <Card title="Form Labels" icon="tag">
+    - Descriptive placeholders
+    - Email type validation
+    - Clear button text
+  </Card>
+  <Card title="Focus States" icon="circle">
+    - Blue border on focus
+    - No confusing outlines
+    - Smooth transitions
+  </Card>
+</CardGroup>
+
+### Focus Styling
+
+```html
+focus:border-blue-500 focus:outline-none
+```
+
+- Blue border clearly indicates focused field
+- Browser default outline removed for custom styling
+- Maintains keyboard navigation accessibility
+
+<Tip>
+  Always provide clear focus indicators for keyboard navigation accessibility.
+</Tip>
+
+## Responsive Behavior
+
+### Mobile Layout
+
+```html
+class="flex flex-col sm:flex-row gap-4"
+```
+
+- Vertical stack of form elements
+- Full width inputs and button
+- Easy thumb-friendly interaction
+- Proper spacing between fields
+
+### Desktop Layout
+
+- Horizontal arrangement (at `sm` breakpoint)
+- Side-by-side inputs
+- Compact, efficient use of space
+- Maintained spacing with gap utility
+
+## Meta Information
+
+```html
+<title>Contact | Enzo Fuke | If it hasn't worked out yet, it's because it's not over yet</title>
+<meta property="og:url" content="https://milesonerd.netlify.app/contact" />
+<meta name="twitter:url" content="https://milesonerd.netlify.app/contact" />
+```
+
+## Key Features Summary
+
+<CardGroup cols={2}>
+  <Card title="User-Friendly" icon="smile">
+    - Simple, clear form
+    - Helpful placeholder text
+    - Transparent privacy information
+    - Multiple contact options
+  </Card>
+  <Card title="Technical" icon="code">
+    - Formspree integration
+    - No backend required
+    - Email validation
+    - Responsive design
+  </Card>
+  <Card title="Privacy" icon="shield">
+    - Clear privacy policy
+    - Email protection explained
+    - Temporary email system
+    - No sharing commitment
+  </Card>
+  <Card title="Design" icon="palette">
+    - Gradient background
+    - Focus states
+    - Hover effects
+    - Professional styling
+  </Card>
+</CardGroup>
+
+## Shared Components
+
+Like all pages, the Contact page includes:
+
+- **Fixed navigation header**
+- **Footer with 16+ social links**
+- **Legal links** (Terms, Privacy, Cookies, Accessibility)
+- **Responsive design** across all breakpoints
+
+<Info>
+  The consistent header and footer ensure users can always navigate to other sections or connect via social media.
+</Info>
