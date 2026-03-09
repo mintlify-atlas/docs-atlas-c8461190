@@ -1,0 +1,64 @@
+{
+  "projectType": "frontend",
+  "projectName": "MilesONerd Website",
+  "projectDescription": "Personal portfolio and blog website for Enzo Fuke, a Data and Machine Learning Professional",
+  "theme": "palm",
+  "primaryColor": "#bb4430",
+  "lightColor": "#1e0b10",
+  "darkColor": "#7c6c54",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Overview",
+        "pages": [
+          "introduction",
+          "getting-started"
+        ]
+      },
+      {
+        "group": "Features",
+        "pages": [
+          "features/home",
+          "features/about",
+          "features/blog",
+          "features/contact"
+        ]
+      },
+      {
+        "group": "Development",
+        "pages": [
+          "development/structure",
+          "development/styling",
+          "development/deployment"
+        ]
+      },
+      {
+        "group": "Contributing",
+        "pages": [
+          "contributing/guidelines",
+          "contributing/customization"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Personal portfolio homepage with hero section",
+    "About page with professional background",
+    "Blog system with Markdown support",
+    "Contact form with Formspree integration",
+    "Responsive design using Tailwind CSS",
+    "Dark theme with custom animations",
+    "Social media integration",
+    "Netlify deployment"
+  ],
+  "publicApiSurface": [
+    "index.html - Homepage",
+    "about.html - About page",
+    "contact.html - Contact form",
+    "blog/index.html - Blog listing",
+    "blog/posts/*.md - Blog posts",
+    "assets/style/styles.css - Custom styles",
+    "blog/update-posts.sh - Build script",
+    "netlify.toml - Deployment configuration"
+  ]
+}
